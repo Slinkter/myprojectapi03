@@ -14,7 +14,8 @@ const App = () => {
     /* flex flex-col justify-center  items-center h-screen w-full */
     const changeColorBG = darkMode ? "bg-gray-900" : "bg-gray-100";
     const containerStyle = `flex flex-col justify-center items-center h-auto w-full ${changeColorBG}`;
-
+    /* only meas
+     */
     return (
         <ThemeContext.Provider value={{ darkMode, f_handleChangeMode }}>
             <div className={containerStyle}>
