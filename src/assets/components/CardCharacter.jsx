@@ -23,7 +23,7 @@ export function CardCharacter({ user, handleAddCharacter }) {
                 />
             </CardHeader>
             <CardBody>
-                <div className="mb-2 flex justify-between items-center  border-2 rounded-lg">
+                <div className="mb-2 flex justify-between items-center ">
                     <Typography
                         color={darkMode ? "red" : "black"}
                         className="font-medium"

@@ -3,60 +3,15 @@ import { Typography, Input, Button } from "@material-tailwind/react";
 import ThemeContext from "../context/context";
 import useCharacters from "../hooks/useCharacters";
 import { CardCharacter } from "./CardCharacter";
-import { toast } from "react-toastify";
-
-const types = {
-    ADDTOFAV: "ADD_TO_FAVORITE",
-    DELETEFAV: "DELETE_TO_FAVORITE",
-};
-
-const globalState = {
-    favorites: [],
-};
-
-const reducer = (state, action) => {
-    switch (action.type) {
-        case types.ADDTOFAV: {
-            const character = action.payload;
-            const isOnList = state.favorites.find(
-                (favorite) => favorite.id === character.id
-            );
-            if (isOnList) {
-                toast.info(
-                    `${character.name} ya está en la lista de favoritos`,
-                    { autoClose: 3000 }
-                );
-                return state;
-            } else {
-                const newState = {
-                    ...state,
-                    favorites: [...state.favorites, character],
-                };
-                toast.success(`${character.name} agregado a favoritos`, {
-                    autoClose: 3000,
-                });
-                return newState;
-            }
-        }
-        case types.DELETEFAV: {
-            const character = action.payload;
-            const newState = {
-                ...state,
-                favorites: [
-                    ...state.favorites.filter((fav) => fav.id !== character.id),
-                ],
-            };
-            return newState;
-        }
-        default:
-            return state;
-    }
-};
+import { globalState, reducer, types } from "./utils";
 
 const Characters = () => {
+    // Theme
+    const { darkMode } = useContext(ThemeContext);
+    // hooks
     const [search, setSearch] = useState("");
     const [state, dispatch] = useReducer(reducer, globalState);
-    const { darkMode } = useContext(ThemeContext);
+    // custom hooks
     const url_api = "https://rickandmortyapi.com/api/character/";
     const characters = useCharacters(url_api);
 
@@ -66,6 +21,7 @@ const Characters = () => {
 
     const handleAddCharacter = useCallback((fav) => {
         dispatch({ type: types.ADDTOFAV, payload: fav });
+        setSearch("");
     }, []);
 
     const handleDeleteCharacter = (fav) => {
@@ -87,17 +43,26 @@ const Characters = () => {
     );
 
     return (
-        <div className="w-3/4 flex flex-col justify-center items-center gap-6">
+        <div className="w-3/4 flex flex-col justify-center items-center gap-6 max-w-screen-lg">
+            <Input
+                size="lg"
+                color={darkMode ? "white" : "black"}
+                variant=""
+                label="Nombre"
+                placeholder="Ingresar texto"
+                value={search}
+                onChange={handleSearch}
+            />
             <div className="w-full p-5 border-2 border-gray-400 rounded-xl">
                 <Typography color={darkMode ? "white" : "red"} variant="h2">
                     Lista de favoritos
                 </Typography>
-                <hr />
+
                 <ul>
                     {state.favorites.map((fav) => (
                         <li
                             key={fav.id}
-                            className="flex flex-row justify-between items-center m-2 border-2 border-gray-400 rounded-xl"
+                            className="flex flex-row justify-between items-center m-2 "
                         >
                             <Typography
                                 variant="h4"
@@ -119,15 +84,6 @@ const Characters = () => {
             <Typography color={darkMode ? "white" : "red"} variant="h2">
                 Lista de Personajes
             </Typography>
-            <Input
-                size="lg"
-                color={darkMode ? "white" : "black"}
-                variant=""
-                label="Nombre"
-                placeholder="Ingresar texto"
-                value={search}
-                onChange={handleSearch}
-            />
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                 {filterUser.slice(0, 10).map((user) => (

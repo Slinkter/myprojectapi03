@@ -3,8 +3,6 @@ import { useState } from "react";
 import Characters from "./assets/components/Characters";
 import Header from "./assets/components/Header";
 import ThemeContext from "./assets/context/context";
-import { ToastContainer } from "react-toastify";
-
 //
 const App = () => {
     const [darkMode, setDarkMode] = useState(false);
