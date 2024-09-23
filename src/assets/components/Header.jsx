@@ -4,8 +4,11 @@ import { Typography } from "@material-tailwind/react";
 import ThemeContext from "../context/context";
 
 const Header = () => {
-    const { darkMode, f_handleChangeMode } = useContext(ThemeContext);
+    const { darkMode, f_handleChangeMode, listCharacters } =
+        useContext(ThemeContext);
     const colordarkMode = darkMode ? "white" : "red";
+    console.log("listCharacters", listCharacters);
+
     return (
         <div className="w-3/4 ">
             <div className="flex flex-col  justify-center items-center gap-2 my-4 text-center">
