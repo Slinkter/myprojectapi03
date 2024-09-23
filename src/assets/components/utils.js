@@ -11,19 +11,12 @@ export const reducer = (state, action) => {
     switch (action.type) {
         case types.ADDTOFAV: {
             const character = action.payload;
-            const isOnList = state.favorites.find(
-                (favorite) => favorite.id === character.id
+            const isFavorite = state.favorites.find(
+                (fav) => fav.id === character.id
             );
-            if (isOnList) {
-                return state;
-            } else {
-                const newState = {
-                    ...state,
-                    favorites: [...state.favorites, character],
-                };
-
-                return newState;
-            }
+            return !isFavorite
+                ? { ...state, favorites: [...state.favorites, character] }
+                : state;
         }
         case types.DELETEFAV: {
             const character = action.payload;

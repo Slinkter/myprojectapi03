@@ -5,9 +5,10 @@ import Header from "./assets/components/Header";
 import ThemeContext from "./assets/context/context";
 //
 const App = () => {
+    /*  */
+    const [characters, setCharacters] = useState([]);
     const [darkMode, setDarkMode] = useState(false);
     const f_handleChangeMode = () => setDarkMode(!darkMode);
-    const [characters, setCharacters] = useState([]);
     /*  */
     const getUser = async () => {
         const url_api = "https://rickandmortyapi.com/api/character/";
@@ -20,8 +21,8 @@ const App = () => {
         getUser();
     }, []);
     /*  */
-    const changeColorBG = darkMode ? "bg-gray-900" : "bg-gray-100";
-    const containerStyle = `flex flex-col justify-center items-center h-auto w-full ${changeColorBG}`;
+    const changeColorBG = darkMode ? "bg-gray-900" : "bg-gray-300";
+    const containerStyle = `flex flex-col justify-center items-center h-auto ${changeColorBG}`;
     const listCharacters = [...characters];
     //
     const props = { darkMode, f_handleChangeMode, listCharacters };

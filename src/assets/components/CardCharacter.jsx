@@ -14,7 +14,10 @@ export function CardCharacter({ user, handleAddCharacter }) {
     const { darkMode } = useContext(ThemeContext);
 
     return (
-        <Card className="w-92" key={id}>
+        <Card
+            className="w-80 md:w-72 md:h-96 border-2 border-gray-100 "
+            shadow={true}
+        >
             <CardHeader shadow={true} floated={false} className="h-64">
                 <img
                     className="h-full w-full object-cover"
