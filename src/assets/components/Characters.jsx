@@ -41,18 +41,7 @@ const Characters = () => {
                     onChange={handleSearch}
                 />
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredUsers.slice(0, 10).map((user) => (
-                    <div key={user.id}>
-                        <CardCharacter
-                            user={user}
-                            handleAddCharacter={handleAddCharacter}
-                        />
-                    </div>
-                ))}
-            </div>
-
-            <div className="w-full p-5 border-2 border-gray-400 rounded-xl">
+            <div className="w-3/4  p-5 border-2 border-gray-400 rounded-xl">
                 <Typography color={darkMode ? "white" : "red"} variant="h2">
                     Lista de favoritos
                 </Typography>
@@ -78,6 +67,17 @@ const Characters = () => {
                         </li>
                     ))}
                 </ul>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredUsers.slice(0, 10).map((user) => (
+                    <div key={user.id}>
+                        <CardCharacter
+                            user={user}
+                            handleAddCharacter={handleAddCharacter}
+                            favorites={state.favorites}
+                        />
+                    </div>
+                ))}
             </div>
         </div>
     );

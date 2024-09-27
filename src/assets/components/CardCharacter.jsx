@@ -9,33 +9,32 @@ import {
 import { useContext } from "react";
 import ThemeContext from "../context/context";
 
-export function CardCharacter({ user, handleAddCharacter }) {
+export function CardCharacter({ user, handleAddCharacter, favorites }) {
     const { id, image, name, gender, species } = user;
     const { darkMode } = useContext(ThemeContext);
 
+    const isFavorite = favorites.some((fav) => fav.id === id);
+
     return (
-        <Card
-            className="w-80 md:w-72 md:h-96 border-2 border-gray-100 "
-            shadow={true}
-        >
-            <CardHeader shadow={true} floated={false} className="h-64">
+        <Card className="  " shadow={true}>
+            <CardHeader shadow={true} floated={false}>
                 <img
-                    className="h-full w-full object-cover"
+                    className="h-full w-full object-cover object-center"
                     src={image}
                     alt="card-image"
                 />
             </CardHeader>
-            <CardBody>
-                <div className="mb-2 flex justify-between items-center ">
+            <CardBody className="">
+                <div className=" flex justify-between items-center  ">
                     <Typography
                         color={darkMode ? "red" : "black"}
-                        className="font-medium"
+                        className="font-medium text-left truncate "
                     >
                         {name}
                     </Typography>
                     <Typography
                         color={darkMode ? "red" : "black"}
-                        className="font-medium"
+                        className="font-medium "
                     >
                         {gender}
                     </Typography>
@@ -43,17 +42,18 @@ export function CardCharacter({ user, handleAddCharacter }) {
                 <Typography
                     variant="small"
                     color="gray"
-                    className="font-normal opacity-75"
+                    className="font-normal opacity-75 text-left "
                 >
                     {species}
                 </Typography>
             </CardBody>
-            <CardFooter className="pt-0">
+            <CardFooter className="border-2 pt-0 m-0">
                 <Button
                     color={darkMode ? "black" : "red"}
                     onClick={() => handleAddCharacter(user)}
                     ripple={true}
                     fullWidth={true}
+                    disabled={isFavorite}
                 >
                     Add
                 </Button>
