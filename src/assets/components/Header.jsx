@@ -14,7 +14,7 @@ const Header = () => {
                     Rick and Morty API
                 </Typography>
                 <Typography color={darkMode ? "white" : "red"} variant="lead">
-                    ContextAPI + Reducer + Actions + State
+                    ContextAPI + Reducer(fav) + Actions + State
                 </Typography>
                 <Button
                     className="w-full md:w-1/4"

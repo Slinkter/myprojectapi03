@@ -9,7 +9,7 @@ import {
 import { useContext } from "react";
 import ThemeContext from "../context/context";
 
-export function CardCharacter({ user, handleAddCharacter }) {
+export function CardCharacter({ user, handleAddCharacter, fav }) {
     const { id, image, name, gender, species } = user;
     const { darkMode } = useContext(ThemeContext);
 
@@ -54,6 +54,7 @@ export function CardCharacter({ user, handleAddCharacter }) {
                     onClick={() => handleAddCharacter(user)}
                     ripple={true}
                     fullWidth={true}
+                    disabled={fav.some((f) => f.id === id)}
                 >
                     Add
                 </Button>

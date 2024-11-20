@@ -1,19 +1,26 @@
 // App.js
 import { useEffect, useState } from "react";
-import Characters from "./assets/components/Characters";
-import Header from "./assets/components/Header";
+// context
 import ThemeContext from "./assets/context/context";
 //
+import Characters from "./assets/components/Characters";
+import Header from "./assets/components/Header";
+//
+const url_api = "https://rickandmortyapi.com/api/character/";
+// Main components
 const App = () => {
+    document.title = "Project 03 - Luis J Cueva";
     /*  */
-    const [characters, setCharacters] = useState([]);
     const [darkMode, setDarkMode] = useState(false);
+    const [characters, setCharacters] = useState([]);
+    /*  */
     const f_handleChangeMode = () => setDarkMode(!darkMode);
     /*  */
     const getUser = async () => {
-        const url_api = "https://rickandmortyapi.com/api/character/";
         const res = await fetch(url_api);
+        console.log(res);
         const data = await res.json();
+        console.log(data);
         setCharacters(data.results);
     };
     /*  */
@@ -22,7 +29,7 @@ const App = () => {
     }, []);
     /*  */
     const changeColorBG = darkMode ? "bg-gray-900" : "bg-gray-300";
-    const containerStyle = `flex flex-col justify-center items-center h-auto ${changeColorBG}`;
+    const containerStyle = `min-h-dvh flex flex-col justify-center items-center ${changeColorBG}`;
     const listCharacters = [...characters];
     //
     const props = { darkMode, f_handleChangeMode, listCharacters };
