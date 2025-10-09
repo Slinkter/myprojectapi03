@@ -1,47 +1,24 @@
-// App.js
-import { useEffect, useState } from "react";
-// context
-import ThemeContext from "./assets/context/context";
-//
-import Characters from "./assets/components/Characters";
-import Header from "./assets/components/Header";
-//
-const url_api = "https://rickandmortyapi.com/api/character/";
-// Main components
-const App = () => {
-    document.title = "Project 03 - Luis J Cueva";
-    /*  */
-    const [darkMode, setDarkMode] = useState(false);
-    const [characters, setCharacters] = useState([]);
-    /*  */
-    const f_handleChangeMode = () => setDarkMode(!darkMode);
-    /*  */
-    const getUser = async () => {
-        const res = await fetch(url_api);
-        console.log(res);
-        const data = await res.json();
-        console.log(data);
-        setCharacters(data.results);
-    };
-    /*  */
-    useEffect(() => {
-        getUser();
-    }, []);
-    /*  */
-    const changeColorBG = darkMode ? "bg-gray-900" : "bg-gray-300";
-    const containerStyle = `min-h-dvh flex flex-col justify-center items-center ${changeColorBG}`;
-    const listCharacters = [...characters];
-    //
-    const props = { darkMode, f_handleChangeMode, listCharacters };
-    /*    */
+import { ThemeProvider } from "./features/theme-toggle/context/ThemeProvider";
+import { CharacterList } from "./widgets/character-list/ui/CharacterList";
+import { Header } from "./widgets/header/ui/Header";
+
+/**
+ * Componente raíz de la aplicación.
+ * Ensambla los proveedores de contexto y los widgets principales.
+ * @returns {JSX.Element}
+ */
+function App() {
     return (
-        <ThemeContext.Provider value={props}>
-            <div className={containerStyle}>
+        <ThemeProvider>
+            <div className="min-h-screen">
                 <Header />
-                <Characters />
+                <main>
+                    <CharacterList />
+                </main>
             </div>
-        </ThemeContext.Provider>
+        </ThemeProvider>
     );
-};
+}
 
 export default App;
+
