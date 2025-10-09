@@ -2,7 +2,7 @@
  * @file Widget del Header de la aplicación.
  */
 import React from 'react';
-import { ThemeToggleButton } from '../../../features/theme-toggle/ui/ThemeToggleButton';
+import { ThemeToggleButton } from './ThemeToggleButton';
 
 export const Header = () => {
     return (

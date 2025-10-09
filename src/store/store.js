@@ -2,7 +2,7 @@
  * @file Configuración de la tienda (store) de Redux para la aplicación.
  */
 import { configureStore } from "@reduxjs/toolkit";
-import characterReducer from "./characterSlice";
+import characterReducer from "./slices/characterSlice";
 
 /**
  * La tienda global de Redux.

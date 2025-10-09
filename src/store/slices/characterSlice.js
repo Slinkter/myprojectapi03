@@ -2,7 +2,7 @@
  * @file Slice de Redux para la gestión del estado de la entidad 'character'.
  */
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchCharacters as fetchCharactersAPI } from "../api/rickAndMortyAPI";
+import { fetchCharacters as fetchCharactersAPI } from "../../services/rickAndMortyAPI";
 
 /**
  * Thunk asíncrono para obtener los datos de los personajes desde la API.

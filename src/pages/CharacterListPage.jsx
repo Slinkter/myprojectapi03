@@ -3,7 +3,7 @@
  * Utiliza carga perezosa (lazy loading) para el widget principal.
  */
 import React, { Suspense } from "react";
-import { CharacterGridSkeleton } from "../widgets/character-list/ui/CharacterGridSkeleton";
+import { CharacterGridSkeleton } from "../components/CharacterGridSkeleton";
 
 // Carga perezosa del widget de la lista de personajes
 const CharacterList = React.lazy(() =>

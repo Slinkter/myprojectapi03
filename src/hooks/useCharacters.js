@@ -7,7 +7,7 @@ import {
     fetchCharacters,
     addFavorite,
     removeFavorite,
-} from "../store/characterSlice";
+} from "../store/slices/characterSlice";
 
 /**
  * Hook que orquesta la lógica para mostrar y gestionar la lista de personajes.

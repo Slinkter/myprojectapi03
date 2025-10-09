@@ -1,5 +1,5 @@
 import React from "react";
-import { LoadingSkeleton } from "../../../components/LoadingSkeleton";
+import { LoadingSkeleton } from "./LoadingSkeleton";
 
 /**
  * Componente de esqueleto de carga que muestra una cuadrícula de esqueletos de tarjetas.

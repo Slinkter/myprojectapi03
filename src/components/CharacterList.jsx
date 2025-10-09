@@ -1,11 +1,11 @@
 /**
  * @file Widget que muestra la lista de personajes y la lista de favoritos.
  */
-import { useCharacters } from "../../../hooks/useCharacters";
-import { CharacterCard } from "../../../entities/character/ui/CharacterCard";
-import { SearchBar } from "../../../features/character-search/ui/SearchBar";
-import { FavoritesList } from "../../../features/character-favorites/ui/FavoritesList";
-import { ErrorMessage } from "../../../shared/ui/ErrorMessage";
+import { useCharacters } from "../hooks/useCharacters";
+import { CharacterCard } from "./CharacterCard";
+import { SearchBar } from "./SearchBar";
+import { FavoritesList } from "./FavoritesList";
+import { ErrorMessage } from "./ErrorMessage";
 import { CharacterGridSkeleton } from "./CharacterGridSkeleton";
 
 /**
