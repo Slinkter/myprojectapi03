@@ -1,53 +1,57 @@
-# Proyecto: Visor de Personajes de Rick and Morty
+# Tutorial: Visor Interactivo de Personajes con React y Arquitectura FSD
 
 ## 1. Descripción General
-Esta aplicación es un visor de personajes interactivo que consume datos de la API pública de [Rick and Morty](https://rickandmortyapi.com/). Permite a los usuarios explorar una lista de personajes, buscarlos por nombre y gestionar una lista de "favoritos". La interfaz también incluye una funcionalidad para cambiar entre un tema claro y uno oscuro, demostrando el uso de `Context API` para la gestión del tema global.
+
+Este proyecto es una aplicación web moderna construida con React que consume la API de Rick and Morty para mostrar un listado de personajes. La aplicación permite a los usuarios buscar personajes por nombre, añadirlos a una lista de favoritos y cambiar entre un tema claro y oscuro.
+
+El objetivo principal de este proyecto es demostrar una arquitectura de frontend robusta y escalable utilizando **Feature-Sliced Design (FSD)**, gestión de estado centralizada con **Redux Toolkit**, y optimizaciones de rendimiento como **Code Splitting**.
 
 ## 2. Tecnologías Utilizadas
--   **React:** Biblioteca principal para la construcción de la interfaz de usuario.
--   **Vite:** Herramienta de desarrollo y empaquetado de alta velocidad.
--   **Tailwind CSS:** Framework de CSS "utility-first" para un diseño rápido y responsivo.
--   **Material Tailwind:** Biblioteca de componentes de UI que combina Material Design con Tailwind CSS.
--   **React Hooks:** Se utilizan `useState`, `useEffect`, `useContext`, `useReducer`, `useMemo` y `useCallback` para gestionar el estado, los efectos secundarios y las optimizaciones de rendimiento.
--   **ESLint:** Para el análisis estático del código y el mantenimiento de la calidad.
+
+Basado en `package.json`, las tecnologías clave son:
+
+-   **React 18:** Para la construcción de la interfaz de usuario.
+-   **Vite:** Herramienta de build y servidor de desarrollo de alta velocidad.
+-   **Redux Toolkit & React-Redux:** Para una gestión de estado global predecible y centralizada.
+-   **Tailwind CSS:** Framework CSS "utility-first" para un estilizado rápido y responsivo.
+-   **React Hooks:** Uso extensivo de `useState`, `useEffect`, `useMemo` y hooks personalizados para la lógica de UI.
+-   **ESLint:** Para mantener la calidad y consistencia del código.
 
 ## 3. Arquitectura y Flujo de Datos
 
 ### Descripción de la Arquitectura
-El proyecto sigue una arquitectura por capas centrada en componentes, donde la lógica y el estado se separan de la presentación.
 
--   **Capa de Vista (View):** Compuesta por los componentes de React (`Header`, `Characters`, `CardCharacter`). Su única responsabilidad es renderizar la UI a partir de los datos y el estado que reciben, y delegar los eventos del usuario a las funciones correspondientes.
--   **Capa de Lógica de UI (UI Logic):** Gestionada principalmente en los componentes `App.jsx` y `Characters.jsx`.
-    -   `App.jsx` maneja la lógica del tema (claro/oscuro) y la obtención inicial de datos de la API.
-    -   `Characters.jsx` contiene la lógica para la búsqueda de personajes y la gestión de la lista de favoritos a través de un `useReducer`.
--   **Capa de Estado (State):** El estado se gestiona de dos maneras:
-    -   **Estado Global:** El tema de la aplicación y la lista completa de personajes se distribuyen globalmente desde `App.jsx` a través de `ThemeContext`.
-    -   **Estado Local Complejo:** La lista de favoritos se gestiona en `Characters.jsx` con un `useReducer` para un manejo de estado más predecible y escalable. La lógica del reducer se encuentra en `utils.js`.
--   **Capa de Acceso a Datos (Data Access):** La comunicación con la API externa de Rick and Morty se realiza directamente en el componente `App.jsx` usando la `fetch` API nativa del navegador dentro de un `useEffect`.
+El proyecto está estructurado siguiendo la metodología **Feature-Sliced Design (FSD)**. Esta arquitectura organiza el código en capas basadas en su ámbito de responsabilidad, promoviendo una alta cohesión y un bajo acoplamiento.
+
+-   **`app/`**: La capa de inicialización. Configura la tienda de Redux, los proveedores de contexto (ThemeProvider) y el enrutamiento global.
+-   **`pages/`**: Compone los widgets y features para formar una página completa. Utiliza `React.lazy` para el code-splitting.
+-   **`widgets/`**: Secciones complejas de la UI, como la lista completa de personajes (`CharacterList`) o el `Header`. Ensamblan features y entidades.
+-   **`features/`**: Lógica de negocio y de interacción del usuario, como la búsqueda (`character-search`), la gestión de favoritos (`character-favorites`) o el cambio de tema (`theme-toggle`).
+-   **`entities/`**: Unidades de negocio, como `character`. Contiene sus componentes de UI (`CharacterCard`), su modelo de datos y estado (el slice de Redux).
+-   **`shared/`**: Código reutilizable sin lógica de negocio. Incluye la configuración de la API, componentes de UI genéricos (`ErrorMessage`, `LoadingSkeleton`) y hooks.
 
 ### Diagrama de Flujo
+
 ```mermaid
 graph TD
     subgraph "Usuario"
-        A[Carga la página]
-        B[Escribe en el buscador]
-        C[Click en "Add" a un personaje]
-        D[Click en "Delete" de un favorito]
-        E[Click en "Dark/Light Mode"]
+        A[1. Carga la página]
+        B[3. Escribe en SearchBar]
+        C[4. Click en "Añadir/Quitar Favorito"]
     end
 
-    subgraph "Capa de Vista (Componentes)"
-        F[App.jsx]
-        G[Characters.jsx]
-        H[CardCharacter.jsx]
-        I[Header.jsx]
+    subgraph "Capas de UI (Pages, Widgets, Features, Entities)"
+        F[pages/CharacterListPage]
+        G[widgets/CharacterList]
+        H[features/SearchBar]
+        I[entities/CharacterCard]
     end
 
-    subgraph "Capa de Lógica y Estado"
-        J(Context: ThemeContext)
-        K(Hook: useReducer en Characters.jsx)
-        L(Reducer Logic en utils.js)
-        M(API Fetch en App.jsx)
+    subgraph "Capa de Lógica (Hooks & Redux)"
+        J(features/hooks/useCharacters)
+        K(entities/character/model/characterSlice)
+        L{Redux Store}
+        M(Thunk: fetchCharacters)
     end
 
     subgraph "API Externa"
@@ -55,37 +59,31 @@ graph TD
     end
 
     A --> F;
-    F -- Pide datos --> M;
+    F -- Renderiza --> G;
+    G -- Consume hook --> J;
+    J -- Lee estado de --> L;
+    J -- Detecta estado 'idle' --> M[2. Despacha fetchCharacters];
     M -- Llama a --> N;
     N -- Retorna datos --> M;
-    M -- Actualiza estado (characters) --> F;
-    F -- Provee datos y tema --> J;
-    J -- Distribuye a --> G;
-    J -- Distribuye a --> I;
-    J -- Distribuye a --> H;
-    
-    B -- Evento onChange --> G;
-    G -- Actualiza estado local (search) --> G;
-    G -- Filtra lista con useMemo --> G;
+    M -- Actualiza estado en --> K;
+    K -- Modifica --> L;
+    L -- Notifica a la UI --> G;
+    G -- Renderiza lista de --> I;
 
-    C -- Evento onClick --> H;
-    H -- Llama a handleAddCharacter --> G;
-    G -- Despacha acción ADDTOFAV --> K;
-    K -- Usa lógica de --> L;
-    L -- Retorna nuevo estado --> K;
-    K -- Actualiza UI de favoritos --> G;
+    B -- Evento onChange --> H;
+    H -- Llama a handleSearch --> J;
+    J -- Actualiza estado local (searchTerm) --> J;
+    J -- Recalcula 'filteredCharacters' con useMemo --> G;
 
-    D -- Evento onClick --> G;
-    G -- Despacha acción DELETEFAV --> K;
-    
-    E -- Evento onClick --> I;
-    I -- Llama a f_handleChangeMode --> F;
-    F -- Actualiza estado (darkMode) --> F;
-    F -- Provee nuevo tema --> J;
-
+    C -- Evento onClick --> I;
+    I -- Llama a onToggleFavorite --> J;
+    J -- Despacha acción (add/remove) --> K;
+    K -- Actualiza 'favorites' en --> L;
+    L -- Notifica a la UI --> G;
 ```
 
 ### Explicación Detallada del Flujo
+
 1.  **Carga Inicial:** Al cargar la página, `App.jsx` ejecuta un `useEffect` que llama a la API de Rick and Morty.
 2.  **Pintado de Datos:** Los personajes obtenidos se guardan en el estado `characters` y, junto con el estado del tema (`darkMode`), se inyectan en el `ThemeContext.Provider`.
 3.  **Consumo de Contexto:** Los componentes anidados como `Characters.jsx`, `Header.jsx` y `CardCharacter.jsx` consumen los datos y el estado del tema a través del hook `useContext`.
@@ -95,6 +93,7 @@ graph TD
 7.  **Cambio de Tema:** Al hacer clic en el botón de modo, se actualiza el estado `darkMode` en `App.jsx`, lo que provoca que el `ThemeContext` distribuya el nuevo valor y todos los componentes suscritos se vuelvan a renderizar con los estilos correspondientes.
 
 ## 4. Estructura de Carpetas
+
 ```
 /
 ├── public/
@@ -118,6 +117,7 @@ graph TD
 ├── package.json
 └── README.md
 ```
+
 -   **`src/`**: Contiene todo el código fuente de la aplicación.
 -   **`src/assets/components/`**: Almacena los componentes reutilizables de React que conforman la interfaz. `utils.js` contiene la lógica del reducer.
 -   **`src/assets/context/`**: Define el `ThemeContext` de React para la inyección de dependencias y estado global.
@@ -135,12 +135,14 @@ graph TD
 ## 6. Instalación y Ejecución
 
 1.  **Clonar el repositorio:**
+
     ```bash
     git clone <URL_DEL_REPOSITORIO>
     cd myprojectapi03
     ```
 
 2.  **Instalar dependencias:**
+
     ```bash
     npm install
     ```

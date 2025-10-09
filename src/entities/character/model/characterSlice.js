@@ -2,14 +2,14 @@
  * @file Slice de Redux para la gestión del estado de la entidad 'character'.
  */
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchCharacters as fetchCharactersAPI } from "../../../shared/api/rickAndMortyAPI";
+import { fetchCharacters as fetchCharactersAPI } from "../api/rickAndMortyAPI";
 
 /**
  * Thunk asíncrono para obtener los datos de los personajes desde la API.
  * Maneja los estados de 'pending', 'fulfilled' y 'rejected'.
  */
 export const fetchCharacters = createAsyncThunk(
-    'characters/fetchCharacters',
+    "characters/fetchCharacters",
     async (_, { rejectWithValue }) => {
         try {
             const characters = await fetchCharactersAPI();
@@ -34,14 +34,18 @@ const characterSlice = createSlice({
     reducers: {
         addFavorite: (state, action) => {
             const character = action.payload;
-            const isFavorite = state.favorites.find((fav) => fav.id === character.id);
+            const isFavorite = state.favorites.find(
+                (fav) => fav.id === character.id
+            );
             if (!isFavorite) {
                 state.favorites.push(character);
             }
         },
         removeFavorite: (state, action) => {
             const character = action.payload;
-            state.favorites = state.favorites.filter((fav) => fav.id !== character.id);
+            state.favorites = state.favorites.filter(
+                (fav) => fav.id !== character.id
+            );
         },
     },
     // Reducers asíncronos para manejar el estado del thunk

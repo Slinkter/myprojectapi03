@@ -1,15 +1,16 @@
 /**
- * @file Widget principal que muestra la lista de personajes, búsqueda y favoritos.
+ * @file Widget que muestra la lista de personajes y la lista de favoritos.
  */
-import React from 'react';
-import { useCharacters } from '../../../features/character-list/hooks/useCharacters';
-import { CharacterCard } from '../../../entities/character/ui/CharacterCard';
-import { LoadingSkeleton } from '../../../shared/ui/LoadingSkeleton';
-import { ErrorMessage } from '../../../shared/ui/ErrorMessage';
-import { FavoritesList } from '../../../features/character-favorites/ui/FavoritesList';
+import { useCharacters } from "../../../hooks/useCharacters";
+import { CharacterCard } from "../../../entities/character/ui/CharacterCard";
+import { SearchBar } from "../../../features/character-search/ui/SearchBar";
+import { FavoritesList } from "../../../features/character-favorites/ui/FavoritesList";
+import { ErrorMessage } from "../../../shared/ui/ErrorMessage";
+import { CharacterGridSkeleton } from "./CharacterGridSkeleton";
 
 /**
- * Ensambla la UI para la funcionalidad de listar, buscar y gestionar personajes.
+ * Orquesta y renderiza la UI para la búsqueda, visualización y gestión de personajes.
+ * Maneja los diferentes estados de la aplicación (carga, error, vacío, éxito).
  * @returns {JSX.Element}
  */
 export const CharacterList = () => {
@@ -25,49 +26,44 @@ export const CharacterList = () => {
         handleRetry,
     } = useCharacters();
 
-    const renderContent = () => {
-        switch (status) {
-            case 'loading':
-            case 'idle':
-                return (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                        {Array.from({ length: 8 }).map((_, index) => <LoadingSkeleton key={index} />)}
-                    </div>
-                );
-            case 'failed':
-                return <ErrorMessage message={error} onRetry={handleRetry} />;
-            case 'succeeded':
-                return (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                        {filteredCharacters.map((character) => (
-                            <CharacterCard
-                                key={character.id}
-                                character={character}
-                                isFavorite={favorites.some((fav) => fav.id === character.id)}
-                                onToggleFavorite={handleToggleFavorite}
-                            />
-                        ))}
-                    </div>
-                );
-            default:
-                return null;
-        }
-    };
-
     return (
-        <div className="container mx-auto px-4 py-8">
-            <FavoritesList favorites={favorites} onRemoveFavorite={handleRemoveFavorite} />
+        <div className="space-y-12">
+            <FavoritesList
+                favorites={favorites}
+                onRemoveFavorite={handleRemoveFavorite}
+            />
 
-            <div className="my-8">
-                <input
-                    type="search"
-                    placeholder="Buscar personaje por nombre..."
-                    value={searchTerm}
-                    onChange={handleSearch}
-                    className="w-full max-w-md mx-auto block p-3 border-secondary/50 bg-bg-secondary-light dark:bg-bg-secondary-dark rounded-lg focus:ring-primary focus:border-primary transition"
-                />
+            <div className="space-y-6">
+                <h2 className="text-3xl font-bold text-text-primary-light dark:text-text-primary-dark">
+                    Todos los Personajes
+                </h2>
+                <SearchBar value={searchTerm} onChange={handleSearch} />
             </div>
-            {renderContent()}
+
+            {status === "loading" && <CharacterGridSkeleton />}
+
+            {status === "failed" && (
+                <ErrorMessage message={error} onRetry={handleRetry} />
+            )}
+
+            {status === "succeeded" && filteredCharacters.length === 0 && (
+                <p className="text-center text-text-secondary-light dark:text-text-secondary-dark text-lg">
+                    No se encontraron personajes con ese nombre.
+                </p>
+            )}
+
+            {status === "succeeded" && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    {filteredCharacters.map((character) => (
+                        <CharacterCard
+                            key={character.id}
+                            character={character}
+                            onToggleFavorite={handleToggleFavorite}
+                            favorites={favorites}
+                        />
+                    ))}
+                </div>
+            )}
         </div>
     );
 };

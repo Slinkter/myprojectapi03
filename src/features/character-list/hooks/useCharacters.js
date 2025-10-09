@@ -1,24 +1,30 @@
 /**
- * @file Hook personalizado para gestionar la lógica de la lista de personajes.
+ * @file Hook personalizado que encapsula toda la lógica de interacción con la lista de personajes.
  */
 import { useEffect, useMemo, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchCharacters, addFavorite, removeFavorite } from "../../../entities/character/model/characterSlice";
+import {
+    fetchCharacters,
+    addFavorite,
+    removeFavorite,
+} from "../store/characterSlice";
 
 /**
  * Hook que orquesta la lógica para mostrar y gestionar la lista de personajes.
- *
+ * Proporciona el estado derivado de Redux y los manejadores de eventos para la UI.
  * @returns {object} Un objeto que contiene los datos y las funciones necesarias para la vista.
  */
 export const useCharacters = () => {
     const dispatch = useDispatch();
-    const { entities, favorites, status, error } = useSelector((state) => state.characters);
+    const { entities, favorites, status, error } = useSelector(
+        (state) => state.characters
+    );
 
     const [searchTerm, setSearchTerm] = useState("");
 
-    // Obtener los datos de la API al montar el componente
+    // Dispara la carga de datos desde la API si aún no se han cargado.
     useEffect(() => {
-        if (status === 'idle') {
+        if (status === "idle") {
             dispatch(fetchCharacters());
         }
     }, [status, dispatch]);
@@ -33,6 +39,10 @@ export const useCharacters = () => {
         );
     }, [entities, searchTerm]);
 
+    /**
+     * Manejador para eliminar un personaje de la lista de favoritos.
+     * @param {object} character - El personaje a eliminar.
+     */
     const handleRemoveFavorite = (character) => {
         dispatch(removeFavorite(character));
     };
@@ -46,11 +56,17 @@ export const useCharacters = () => {
         }
     };
 
-
-    const handleSearch = (event) => {
-        setSearchTerm(event.target.value);
+    /**
+     * Manejador para actualizar el término de búsqueda.
+     * @param {string} value - El nuevo valor del término de búsqueda.
+     */
+    const handleSearch = (value) => {
+        setSearchTerm(value);
     };
 
+    /**
+     * Manejador para reintentar la carga de datos en caso de error.
+     */
     const handleRetry = () => {
         dispatch(fetchCharacters());
     };
@@ -62,8 +78,8 @@ export const useCharacters = () => {
         favorites,
         searchTerm,
         handleSearch,
-        handleToggleFavorite, // Usar esta función para el botón de la tarjeta
-        handleRemoveFavorite, // Usar esta para la lista de favoritos
+        handleToggleFavorite,
+        handleRemoveFavorite,
         handleRetry,
     };
 };
