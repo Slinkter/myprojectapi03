@@ -27,18 +27,20 @@ export const CharacterList = () => {
     } = useCharacters();
 
     return (
-        <div className="space-y-12">
+        <div className="character-list">
+            {/*  */}
             <FavoritesList
                 favorites={favorites}
                 onRemoveFavorite={handleRemoveFavorite}
             />
-
-            <div className="space-y-6">
-                <h2 className="text-3xl font-bold text-text-primary-light dark:text-text-primary-dark">
+            {/*  */}
+            <div className="character-list__header">
+                <h2 className="character-list__title">
                     Todos los Personajes
                 </h2>
                 <SearchBar value={searchTerm} onChange={handleSearch} />
             </div>
+            
 
             {status === "loading" && <CharacterGridSkeleton />}
 
@@ -47,13 +49,13 @@ export const CharacterList = () => {
             )}
 
             {status === "succeeded" && filteredCharacters.length === 0 && (
-                <p className="text-center text-text-secondary-light dark:text-text-secondary-dark text-lg">
+                <p className="character-list__empty">
                     No se encontraron personajes con ese nombre.
                 </p>
             )}
 
             {status === "succeeded" && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <div className="character-list__grid">
                     {filteredCharacters.map((character) => (
                         <CharacterCard
                             key={character.id}

@@ -16,40 +16,40 @@ export const CharacterCard = React.memo(
         const isFavorite = favorites.some((fav) => fav.id === character.id);
 
         const statusColors = {
-            Alive: "bg-green-500",
-            Dead: "bg-accent",
-            unknown: "bg-secondary",
+            Alive: "character-card__status--alive",
+            Dead: "character-card__status--dead",
+            unknown: "character-card__status--unknown",
         };
 
         return (
-            <div className="bg-bg-secondary-light dark:bg-bg-secondary-dark rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-1 transition-transform duration-300 ease-in-out animate-fade-in">
-                <div className="relative">
+            <div className="character-card">
+                <div className="character-card__image-container">
                     <img
-                        className="w-full h-64 object-cover"
+                        className="character-card__image"
                         src={image}
                         alt={`Image of ${name}`}
                     />
                     <span
-                        className={`absolute top-2 left-2 text-xs font-bold text-white px-2 py-1 rounded-full ${statusColors[status]}`}
+                        className={`character-card__status ${statusColors[status]}`}
                     >
                         {status}
                     </span>
                 </div>
-                <div className="p-4 flex flex-col h-40 justify-between">
+                <div className="character-card__content">
                     <div>
-                        <h3 className="text-xl font-bold text-text-primary-light dark:text-text-primary-dark truncate">
+                        <h3 className="character-card__title">
                             {name}
                         </h3>
-                        <p className="text-text-secondary-light dark:text-text-secondary-dark">
+                        <p className="character-card__subtitle">
                             {species}
                         </p>
                     </div>
                     <button
                         onClick={() => onToggleFavorite(character)}
-                        className={`w-full mt-4 py-2 px-4 rounded-lg font-semibold text-white transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-opacity-50 ${
+                        className={`character-card__button ${
                             isFavorite
-                                ? "bg-accent hover:bg-red-700 focus:ring-accent"
-                                : "bg-primary hover:bg-cyan-700 focus:ring-primary"
+                                ? "character-card__button--favorite"
+                                : "character-card__button--not-favorite"
                         }`}
                     >
                         {isFavorite

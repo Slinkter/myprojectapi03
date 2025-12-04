@@ -6,12 +6,12 @@ import { ThemeToggleButton } from './ThemeToggleButton';
 
 export const Header = () => {
     return (
-        <header className="bg-bg-secondary-light/80 dark:bg-bg-primary-dark/80 backdrop-blur-sm sticky top-0 z-10 shadow-md">
-            <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-                <div className="text-2xl font-bold text-primary">
-                    <a href="/">R&M Explorer</a>
+        <header className="header">
+            <div className="header__container">
+                <div className="header__logo">
+                    <a href="/">API RICK & MORTIN  </a>
                 </div>
-                <nav className="flex items-center gap-4">
+                <nav className="header__nav">
                     {/* Aquí podrían ir otros links de navegación */}
                     <ThemeToggleButton />
                 </nav>

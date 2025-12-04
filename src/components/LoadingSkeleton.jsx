@@ -10,15 +10,15 @@ export const LoadingSkeleton = React.memo(() => {
     return (
         // Se eliminan 'max-w-sm mx-auto p-4 md:p-0' para que se adapte a la cuadrícula.
         // Se añaden clases para que el esqueleto coincida con el layout de CharacterCard.
-        <div className="w-full bg-bg-secondary-light dark:bg-bg-secondary-dark rounded-lg shadow-lg overflow-hidden animate-fade-in">
-            <div className="animate-pulse flex flex-col">
+        <div className="loading-skeleton">
+            <div className="loading-skeleton__pulse">
                 {/* Placeholder para la imagen: h-64 coincide con la imagen de CharacterCard */}
-                <div className="bg-gray-300 dark:bg-gray-700 h-64 w-full rounded-t-lg"></div>
+                <div className="loading-skeleton__image"></div>
                 {/* Placeholder para el contenido: h-40 coincide con el div de contenido de CharacterCard */}
-                <div className="w-full p-4 bg-white dark:bg-gray-800 rounded-b-lg shadow-lg h-40 flex flex-col justify-between">
-                    <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-3/4 mb-2"></div>
-                    <div className="h-3 bg-gray-300 dark:bg-gray-700 rounded w-1/2 mb-4"></div>
-                    <div className="h-10 bg-gray-300 dark:bg-gray-700 rounded w-full"></div>
+                <div className="loading-skeleton__content">
+                    <div className="loading-skeleton__line-lg"></div>
+                    <div className="loading-skeleton__line-md"></div>
+                    <div className="loading-skeleton__button"></div>
                 </div>
             </div>
         </div>

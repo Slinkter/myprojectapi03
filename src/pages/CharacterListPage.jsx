@@ -1,7 +1,4 @@
-/**
- * @file Página principal que muestra la lista de personajes.
- * Utiliza carga perezosa (lazy loading) para el widget principal.
- */
+
 import React, { Suspense } from "react";
 import { CharacterGridSkeleton } from "../components/CharacterGridSkeleton";
 
@@ -12,11 +9,6 @@ const CharacterList = React.lazy(() =>
     }))
 );
 
-/**
- * Renderiza la página que contiene la lista de personajes,
- * mostrando un esqueleto de carga mientras el componente principal se carga.
- * @returns {JSX.Element}
- */
 export const CharacterListPage = () => (
     <Suspense fallback={<CharacterGridSkeleton />}>
         <CharacterList />
