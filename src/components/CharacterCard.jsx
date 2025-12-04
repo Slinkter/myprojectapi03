@@ -13,7 +13,6 @@ import PropTypes from "prop-types";
 export const CharacterCard = React.memo(
     ({ character, favorites, onToggleFavorite }) => {
         const { image, name, species, status } = character;
-
         const isFavorite = favorites.some((fav) => fav.id === character.id);
 
         const statusColors = {
@@ -42,12 +41,12 @@ export const CharacterCard = React.memo(
                         <p className="character-card__subtitle">{species}</p>
                     </div>
                     <button
-                        onClick={() => onToggleFavorite(character)}
                         className={`character-card__button ${
                             isFavorite
                                 ? "character-card__button--favorite"
                                 : "character-card__button--not-favorite"
                         }`}
+                        onClick={() => onToggleFavorite(character)}
                     >
                         {isFavorite
                             ? "Quitar de Favoritos"
@@ -59,7 +58,7 @@ export const CharacterCard = React.memo(
     }
 );
 
-CharacterCard.displayName = 'CharacterCard';
+CharacterCard.displayName = "CharacterCard";
 
 CharacterCard.propTypes = {
     character: PropTypes.shape({

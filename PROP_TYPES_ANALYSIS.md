@@ -22,6 +22,7 @@ A continuación se detalla cada componente modificado, mostrando cómo estaba an
 
 **Antes:**
 La firma del componente no especificaba los tipos de datos esperados para sus props.
+
 ```javascript
 export const CharacterCard = React.memo(
     ({ character, favorites, onToggleFavorite }) => {
@@ -32,6 +33,7 @@ export const CharacterCard = React.memo(
 
 **Después:**
 Se añadieron validaciones para asegurar la estructura del personaje y la presencia de las funciones y datos necesarios.
+
 ```javascript
 import PropTypes from "prop-types";
 
@@ -40,6 +42,8 @@ export const CharacterCard = React.memo(
         // ...
     }
 );
+
+CharacterCard.displayName = "CharacterCard"; // Añadido para resolver advertencia de ESLint
 
 CharacterCard.propTypes = {
     character: PropTypes.shape({
@@ -55,9 +59,11 @@ CharacterCard.propTypes = {
 ```
 
 **Justificación:**
+
 -   `character`: Es el objeto principal que contiene la información a mostrar. Se define como `shape` para validar su estructura interna (`id`, `name`, etc.) y se marca como `isRequired` porque el componente es inútil sin él.
 -   `favorites`: Es un array necesario para determinar si el personaje actual está en la lista de favoritos. Se valida como `arrayOf(PropTypes.object)` y es requerido.
 -   `onToggleFavorite`: Es la función que maneja la acción del botón. Se define como `func.isRequired` para garantizar que la interacción del usuario siempre esté conectada.
+-   **`displayName`**: Se añadió `CharacterCard.displayName = 'CharacterCard';` para resolver la advertencia de ESLint "component definition is missing display name", que ayuda en la depuración con las React DevTools al proporcionar un nombre claro para el componente.
 
 ---
 
@@ -65,19 +71,21 @@ CharacterCard.propTypes = {
 
 **Antes:**
 El componente recibía `message` y `onRetry` sin ninguna validación.
+
 ```javascript
 export const ErrorMessage = ({ message, onRetry }) => {
-  // ...
+    // ...
 };
 ```
 
 **Después:**
 Se agregaron validaciones para el mensaje de error y la función de reintento.
+
 ```javascript
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 export const ErrorMessage = ({ message, onRetry }) => {
-  // ...
+    // ...
 };
 
 ErrorMessage.propTypes = {
@@ -87,6 +95,7 @@ ErrorMessage.propTypes = {
 ```
 
 **Justificación:**
+
 -   `message`: Es el texto del error que se mostrará al usuario. Se valida como `string.isRequired` para asegurar que siempre se comunique el problema.
 -   `onRetry`: Es la función que se ejecuta al pulsar el botón "Reintentar". Se valida como `func.isRequired` para garantizar que el botón sea funcional.
 
@@ -96,6 +105,7 @@ ErrorMessage.propTypes = {
 
 **Antes:**
 No había validación para la lista de favoritos ni para la función de eliminación.
+
 ```javascript
 export const FavoritesList = ({ favorites, onRemoveFavorite }) => {
     // ...
@@ -104,6 +114,7 @@ export const FavoritesList = ({ favorites, onRemoveFavorite }) => {
 
 **Después:**
 Se aseguró que `favorites` sea un array con una estructura específica y que `onRemoveFavorite` sea una función.
+
 ```javascript
 import PropTypes from "prop-types";
 
@@ -123,6 +134,7 @@ FavoritesList.propTypes = {
 ```
 
 **Justificación:**
+
 -   `favorites`: Es la lista de personajes favoritos. Se define como `arrayOf(shape(...))` para validar que cada elemento del array sea un objeto con `id` y `name`. Es `isRequired` porque es el dato central del componente.
 -   `onRemoveFavorite`: Es la función para quitar un elemento de la lista. Es `func.isRequired` para que el botón de eliminar funcione correctamente.
 
@@ -132,6 +144,7 @@ FavoritesList.propTypes = {
 
 **Antes:**
 Los props `value` y `onChange` no estaban validados.
+
 ```javascript
 export function SearchBar({ value = "", onChange }) {
     // ...
@@ -140,6 +153,7 @@ export function SearchBar({ value = "", onChange }) {
 
 **Después:**
 Se agregaron las validaciones correspondientes.
+
 ```javascript
 import PropTypes from "prop-types";
 
@@ -154,6 +168,7 @@ SearchBar.propTypes = {
 ```
 
 **Justificación:**
+
 -   `value`: Representa el texto actual en el campo de búsqueda. Se valida como `string`. No es `isRequired` porque tiene un valor por defecto (`""`).
 -   `onChange`: Es la función que actualiza el estado del término de búsqueda. Se marca como `func.isRequired` ya que un campo de búsqueda controlado necesita esta función para operar.
 
@@ -163,6 +178,7 @@ SearchBar.propTypes = {
 
 **Antes:**
 El componente HOC (High-Order Component) no validaba su `prop` más importante: `children`.
+
 ```javascript
 export const ThemeProvider = ({ children }) => {
     // ...
@@ -171,8 +187,9 @@ export const ThemeProvider = ({ children }) => {
 
 **Después:**
 Se añadió la validación para `children`.
+
 ```javascript
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 export const ThemeProvider = ({ children }) => {
     // ...
@@ -184,4 +201,5 @@ ThemeProvider.propTypes = {
 ```
 
 **Justificación:**
+
 -   `children`: En un componente proveedor de contexto como este, `children` representa toda la sub-aplicación que será envuelta. Se valida como `PropTypes.node.isRequired` para asegurar que el `ThemeProvider` siempre tenga contenido para renderizar. `node` es un tipo que acepta cualquier cosa que React pueda renderizar (números, strings, elementos, etc.).
