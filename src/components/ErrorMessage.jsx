@@ -2,6 +2,7 @@
  * @file Componente para mostrar un mensaje de error con opción de reintentar.
  */
 import React from 'react';
+import PropTypes from 'prop-types';
 
 /**
  * Muestra un mensaje de error y un botón para reintentar una acción.
@@ -24,4 +25,9 @@ export const ErrorMessage = ({ message, onRetry }) => {
       </button>
     </div>
   );
+};
+
+ErrorMessage.propTypes = {
+    message: PropTypes.string.isRequired,
+    onRetry: PropTypes.func.isRequired,
 };

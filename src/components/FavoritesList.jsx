@@ -1,8 +1,9 @@
 /**
  * @file Muestra la lista de personajes favoritos y permite eliminarlos.
  */
-import React from 'react';
-import { TrashIcon } from '@heroicons/react/24/solid';
+
+import { TrashIcon } from "@heroicons/react/24/solid";
+import PropTypes from "prop-types";
 
 export const FavoritesList = ({ favorites, onRemoveFavorite }) => {
     if (favorites.length === 0) {
@@ -15,8 +16,10 @@ export const FavoritesList = ({ favorites, onRemoveFavorite }) => {
                 <h2 className="favorites-list__title">Mis Favoritos</h2>
                 <ul className="favorites-list__items">
                     {favorites.map((fav) => (
-                        <li key={fav.id} className="favorites-list__item" >
-                            <span className="favorites-list__name">{fav.name}</span>
+                        <li key={fav.id} className="favorites-list__item">
+                            <span className="favorites-list__name">
+                                {fav.name}
+                            </span>
                             <button
                                 className="favorites-list__remove-btn"
                                 aria-label={`Eliminar a ${fav.name} de favoritos`}
@@ -26,8 +29,18 @@ export const FavoritesList = ({ favorites, onRemoveFavorite }) => {
                             </button>
                         </li>
                     ))}
-                </ul>                
+                </ul>
             </div>
         </div>
     );
+};
+
+FavoritesList.propTypes = {
+    favorites: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            name: PropTypes.string.isRequired,
+        })
+    ).isRequired,
+    onRemoveFavorite: PropTypes.func.isRequired,
 };

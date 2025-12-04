@@ -5,7 +5,6 @@ import { Header } from "./components/Header";
 import { ThemeProvider } from "./context/ThemeProvider";
 import { store } from "./store/store";
 
-
 function App() {
     return (
         <React.StrictMode>

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 export function SearchBar({ value = "", onChange }) {
     return (
@@ -14,3 +15,8 @@ export function SearchBar({ value = "", onChange }) {
         </div>
     );
 }
+
+SearchBar.propTypes = {
+    value: PropTypes.string,
+    onChange: PropTypes.func.isRequired,
+};

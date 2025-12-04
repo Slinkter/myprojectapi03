@@ -2,6 +2,7 @@
  * @file Componente de UI puro para mostrar la tarjeta de un personaje.
  */
 import React from "react";
+import PropTypes from "prop-types";
 
 /**
  * Renderiza la tarjeta de un personaje con su información y un botón de acción.
@@ -37,12 +38,8 @@ export const CharacterCard = React.memo(
                 </div>
                 <div className="character-card__content">
                     <div>
-                        <h3 className="character-card__title">
-                            {name}
-                        </h3>
-                        <p className="character-card__subtitle">
-                            {species}
-                        </p>
+                        <h3 className="character-card__title">{name}</h3>
+                        <p className="character-card__subtitle">{species}</p>
                     </div>
                     <button
                         onClick={() => onToggleFavorite(character)}
@@ -61,3 +58,15 @@ export const CharacterCard = React.memo(
         );
     }
 );
+
+CharacterCard.propTypes = {
+    character: PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired,
+        image: PropTypes.string.isRequired,
+        status: PropTypes.string.isRequired,
+        species: PropTypes.string.isRequired,
+    }).isRequired,
+    favorites: PropTypes.arrayOf(PropTypes.object).isRequired,
+    onToggleFavorite: PropTypes.func.isRequired,
+};

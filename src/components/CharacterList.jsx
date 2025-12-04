@@ -35,12 +35,9 @@ export const CharacterList = () => {
             />
             {/*  */}
             <div className="character-list__header">
-                <h2 className="character-list__title">
-                    Todos los Personajes
-                </h2>
+                <h2 className="character-list__title">Todos los Personajes</h2>
                 <SearchBar value={searchTerm} onChange={handleSearch} />
             </div>
-            
 
             {status === "loading" && <CharacterGridSkeleton />}
 
@@ -50,7 +47,7 @@ export const CharacterList = () => {
 
             {status === "succeeded" && filteredCharacters.length === 0 && (
                 <p className="character-list__empty">
-                    No se encontraron personajes con ese nombre.
+                    No se encontraron personajes con ese nombre {searchTerm}
                 </p>
             )}
 
