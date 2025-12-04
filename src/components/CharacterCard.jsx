@@ -59,6 +59,8 @@ export const CharacterCard = React.memo(
     }
 );
 
+CharacterCard.displayName = 'CharacterCard';
+
 CharacterCard.propTypes = {
     character: PropTypes.shape({
         id: PropTypes.number.isRequired,
