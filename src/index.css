@@ -62,7 +62,7 @@
 
     /* Character List Component */
     .character-list {
-        @apply space-y-12 border-2 border-red-100;
+        @apply space-y-12;
     }
     .character-list__header {
         @apply space-y-6;

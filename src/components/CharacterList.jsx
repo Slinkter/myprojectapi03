@@ -35,7 +35,7 @@ export const CharacterList = () => {
             />
             {/*  */}
             <div className="character-list__header">
-                <h2 className="character-list__title">Todos los Personajes</h2>
+                <h2 className="character-list__title"> Personajes</h2>
                 <SearchBar value={searchTerm} onChange={handleSearch} />
             </div>
 
