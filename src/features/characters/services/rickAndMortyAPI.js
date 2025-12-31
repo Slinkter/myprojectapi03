@@ -14,18 +14,18 @@ const API_BASE_URL = "https://rickandmortyapi.com/api";
  * @throws {Error} Si la respuesta de la red no es exitosa.
  */
 export const fetchCharacters = async () => {
-    try {
-        const response = await fetch(`${API_BASE_URL}/character`);
+  try {
+    const response = await fetch(`${API_BASE_URL}/character`);
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        return data.results;
-    } catch (error) {
-        console.error("Failed to fetch characters:", error);
-        // Re-lanza el error para que la capa superior (el thunk) pueda manejarlo.
-        throw error;
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
+
+    const data = await response.json();
+    return data.results;
+  } catch (error) {
+    console.error("Failed to fetch characters:", error);
+    // Re-lanza el error para que la capa superior (el thunk) pueda manejarlo.
+    throw error;
+  }
 };

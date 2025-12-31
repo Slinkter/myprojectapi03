@@ -4,7 +4,6 @@
  * incluyendo la carga de datos, la gestión de favoritos y el seguimiento del estado de las solicitudes.
  */
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-// Importa la función de la API para obtener personajes.
 import { fetchCharacters as fetchCharactersAPI } from "@/features/characters/services/rickAndMortyAPI";
 
 /**
@@ -12,7 +11,7 @@ import { fetchCharacters as fetchCharactersAPI } from "@/features/characters/ser
  * Utiliza `createAsyncThunk` para manejar el ciclo de vida de una solicitud asíncrona (pending, fulfilled, rejected).
  * @param {void} _ - No se esperan argumentos para esta acción.
  * @param {object} { rejectWithValue } - Objeto de Redux Toolkit para manejar errores y rechazarlos con un valor.
- * @returns {Promise<Array>} Una promesa que resuelve con la lista de personajes o rechaza con un mensaje de error.
+ * @re turns {Promise<Array>} Una promesa que resuelve con la lista de personajes o rechaza con un mensaje de error.
  */
 export const fetchCharacters = createAsyncThunk(
   "characters/fetchCharacters", // Nombre de la acción para identificarla en el store
@@ -46,7 +45,7 @@ const initialState = {
  */
 const characterSlice = createSlice({
   name: "characters", // Nombre del slice, usado como prefijo para los tipos de acción.
-  initialState, // El estado inicial definido anteriormente.
+  initialState: initialState,
   /**
    * Reducers síncronos para manipular el estado.
    * Estos se llaman directamente desde las acciones despachadas.
