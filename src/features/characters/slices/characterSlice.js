@@ -11,7 +11,7 @@ import { fetchCharacters as fetchCharactersAPI } from "@/features/characters/ser
  * Utiliza `createAsyncThunk` para manejar el ciclo de vida de una solicitud asíncrona (pending, fulfilled, rejected).
  * @param {void} _ - No se esperan argumentos para esta acción.
  * @param {object} { rejectWithValue } - Objeto de Redux Toolkit para manejar errores y rechazarlos con un valor.
- * @re turns {Promise<Array>} Una promesa que resuelve con la lista de personajes o rechaza con un mensaje de error.
+ * @returns {Promise<Array>} Una promesa que resuelve con la lista de personajes o rechaza con un mensaje de error.
  */
 export const fetchCharacters = createAsyncThunk(
   "characters/fetchCharacters", // Nombre de la acción para identificarla en el store
@@ -60,6 +60,7 @@ const characterSlice = createSlice({
       const character = action.payload;
       // Comprueba si el personaje ya está en favoritos para evitar duplicados.
       const isFavorite = state.favorites.find((fav) => fav.id === character.id);
+      //
       if (!isFavorite) {
         // Si no es un favorito, lo añade al array.
         state.favorites.push(character);

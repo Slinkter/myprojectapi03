@@ -14,6 +14,7 @@ import { CharacterGridSkeleton } from "./CharacterGridSkeleton";
  * @returns {JSX.Element}
  */
 export const CharacterList = () => {
+  /* Custom hook */
   const {
     status,
     error,

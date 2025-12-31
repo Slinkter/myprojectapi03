@@ -8,16 +8,16 @@ import { store } from "@/store/store";
 function App() {
   return (
     <React.StrictMode>
-      <ReduxProvider store={store}>
-        <ThemeProvider>
+      <ThemeProvider>
+        <ReduxProvider store={store}>
           <div className="app-layout">
             <Header />
             <main className="app-layout__main">
               <CharacterListPage />
             </main>
           </div>
-        </ThemeProvider>
-      </ReduxProvider>
+        </ReduxProvider>
+      </ThemeProvider>
     </React.StrictMode>
   );
 }

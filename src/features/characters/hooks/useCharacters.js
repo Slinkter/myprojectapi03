@@ -7,11 +7,22 @@ import {
 } from "@/features/characters/slices/characterSlice";
 
 /**
- * Hook que orquesta la lógica para mostrar y gestionar la lista de personajes.
- * Proporciona el estado derivado de Redux y los manejadores de eventos para la UI.
- * @returns {object} Un objeto que contiene los datos y las funciones necesarias para la vista.
+ * Hook personalizado para la gestión de la lógica de negocio de la vista de personajes.
+ * Encapsula la comunicación con el store de Redux y la gestión del estado local de búsqueda.
+ *
+ * @returns {object} Objeto con las propiedades y métodos necesarios para la UI:
+ * - `status` {string}: Estado de la petición ('idle', 'loading', 'succeeded', 'failed').
+ * - `error` {string|null}: Mensaje de error en caso de fallo.
+ * - `filteredCharacters` {Array<object>}: Lista de personajes filtrada por búsqueda.
+ * - `favorites` {Array<object>}: Lista de personajes en favoritos.
+ * - `searchTerm` {string}: Término de búsqueda actual.
+ * - `handleSearch` {function(string): void}: Actualiza el término de búsqueda.
+ * - `handleToggleFavorite` {function(object): void}: Alterna el estado de favorito.
+ * - `handleRemoveFavorite` {function(object): void}: Elimina de favoritos.
+ * - `handleRetry` {function(): void}: Reintenta la carga de datos.
  */
 export const useCharacters = () => {
+  /* local state */
   const [searchTerm, setSearchTerm] = useState("");
   /* redux state */
   const { entities, favorites, status, error } = useSelector(
@@ -20,9 +31,8 @@ export const useCharacters = () => {
   const dispatch = useDispatch();
 
   /**
-   * Efecto para cargar los personajes desde la API.
-   * Se ejecuta solo cuando el componente se monta por primera vez y el estado es 'idle'.
-   * Esto previene recargas innecesarias si los datos ya están presentes o en proceso de carga.
+   * Efecto secundario que inicia la carga de personajes si el estado es 'idle'.
+   * Evita llamadas redundantes a la API si los datos ya se están cargando o existen.
    */
   useEffect(() => {
     if (status === "idle") {
@@ -31,15 +41,9 @@ export const useCharacters = () => {
   }, [status, dispatch]);
 
   /**
-   * Memoriza la lista de personajes filtrados.
-   * `useMemo` se utiliza aquí para evitar recalcular la lista en cada renderizado.
-   * El cálculo solo se volverá a ejecutar si `entities` (la lista original de personajes) o `searchTerm` (el término de búsqueda) cambian.
-   * Esto es eficiente porque el filtrado puede ser una operación costosa en listas grandes.
-   *
-   * ¿Por qué `useMemo` y no `useCallback`?
-   * `useMemo` memoriza un valor (en este caso, el array `filteredCharacters`).
-   * `useCallback` memoriza una función.
-   * Como lo que queremos es almacenar el *resultado* del cálculo (el array filtrado), `useMemo` es la elección correcta.
+   * Lista de personajes filtrada según el término de búsqueda.
+   * Utiliza `useMemo` para optimizar el rendimiento, recalculando el array solo
+   * cuando cambian las entidades o el término de búsqueda.
    */
   const filteredCharacters = useMemo(() => {
     if (!searchTerm) {
@@ -51,9 +55,9 @@ export const useCharacters = () => {
   }, [entities, searchTerm]);
 
   /**
-   * Manejador para añadir o eliminar un personaje de la lista de favoritos.
-   * Comprueba si el personaje ya es un favorito para decidir qué acción despachar.
-   * @param {object} character - El personaje a añadir o eliminar.
+   * Alterna la presencia de un personaje en la lista de favoritos.
+   * Si ya existe lo elimina, de lo contrario lo añade.
+   * @param {object} character - El objeto del personaje a procesar.
    */
   const handleToggleFavorite = (character) => {
     const isFavorite = favorites.some((fav) => fav.id === character.id);
@@ -65,23 +69,23 @@ export const useCharacters = () => {
   };
 
   /**
-   * Manejador para eliminar un personaje de la lista de favoritos.
-   * @param {object} character - El personaje a eliminar.
+   * Elimina un personaje de la lista de favoritos.
+   * @param {object} character - El objeto del personaje a eliminar.
    */
   const handleRemoveFavorite = (character) => {
     dispatch(removeFavorite(character));
   };
   /**
-   * Manejador para actualizar el término de búsqueda.
-   * @param {string} value - El nuevo valor del término de búsqueda.
+   * Actualiza el estado del término de búsqueda.
+   * @param {string} value - Nuevo texto de búsqueda.
    */
   const handleSearch = (value) => {
     setSearchTerm(value);
   };
 
   /**
-   * Manejador para reintentar la carga de datos en caso de error.
-   * Despacha la acción `fetchCharacters` nuevamente.
+   * Reintenta la carga de personajes despachando la acción correspondiente.
+   * Útil en caso de error en la petición inicial.
    */
   const handleRetry = () => {
     dispatch(fetchCharacters());
