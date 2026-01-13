@@ -11,15 +11,18 @@ export const FavoritesList = ({ favorites, onRemoveFavorite }) => {
   }
 
   return (
-    <div className="favorites-list">
-      <div className="favorites-list__container">
-        <h2 className="favorites-list__title">Mis Favoritos</h2>
-        <ul className="favorites-list__items">
+    <div className="container mx-auto px-4 py-6">
+      <div className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-lg">
+        <h2 className="text-2xl font-bold mb-4 text-cyan-500">Mis Favoritos</h2>
+        <ul className="space-y-3">
           {favorites.map((fav) => (
-            <li key={fav.id} className="favorites-list__item">
-              <span className="favorites-list__name">{fav.name}</span>
+            <li
+              key={fav.id}
+              className="flex justify-between items-center bg-slate-100 dark:bg-slate-900 p-3 rounded-md animate-fade-in"
+            >
+              <span className="font-semibold text-lg">{fav.name}</span>
               <button
-                className="favorites-list__remove-btn"
+                className="p-2 text-red-500 hover:bg-red-500/10 rounded-full transition-colors"
                 aria-label={`Eliminar a ${fav.name} de favoritos`}
                 onClick={() => onRemoveFavorite(fav)}
               >

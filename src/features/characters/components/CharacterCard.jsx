@@ -3,71 +3,61 @@
  */
 import React from "react";
 import PropTypes from "prop-types";
+import { StatusBadge } from "./StatusBadge";
 
 /**
  * Renderiza la tarjeta de un personaje con su información y un botón de acción.
  *
- * @param {{ character: object, favorites: Array<object>, onToggleFavorite: (character: object) => void }} props
+ * @param {{ character: object, isFavorite: boolean, onToggleFavorite: (character: object) => void }} props
  * @returns {JSX.Element}
  */
 export const CharacterCard = React.memo(
-    ({ character, favorites, onToggleFavorite }) => {
-        const { image, name, species, status } = character;
-        const isFavorite = favorites.some((fav) => fav.id === character.id);
+  ({ character, isFavorite, onToggleFavorite }) => {
+    const { image, name, species } = character;
 
-        const statusColors = {
-            Alive: "character-card__status--alive",
-            Dead: "character-card__status--dead",
-            unknown: "character-card__status--unknown",
-        };
-
-        return (
-            <div className="character-card">
-                <div className="character-card__image-container">
-                    <img
-                        className="character-card__image"
-                        src={image}
-                        alt={`Image of ${name}`}
-                    />
-                    <span
-                        className={`character-card__status ${statusColors[status]}`}
-                    >
-                        {status}
-                    </span>
-                </div>
-                <div className="character-card__content">
-                    <div>
-                        <h3 className="character-card__title">{name}</h3>
-                        <p className="character-card__subtitle">{species}</p>
-                    </div>
-                    <button
-                        className={`character-card__button ${
-                            isFavorite
-                                ? "character-card__button--favorite"
-                                : "character-card__button--not-favorite"
-                        }`}
-                        onClick={() => onToggleFavorite(character)}
-                    >
-                        {isFavorite
-                            ? "Quitar de Favoritos"
-                            : "Añadir a Favoritos"}
-                    </button>
-                </div>
-            </div>
-        );
-    }
+    return (
+      <div className="bg-white dark:bg-slate-800 rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 ease-in-out animate-fade-in">
+        <div className="relative">
+          <img
+            className="w-full h-64 object-cover"
+            src={image}
+            alt={`Image of ${name}`}
+          />
+          <StatusBadge status={character.status} />
+        </div>
+        <div className="p-4 flex flex-col h-40 justify-between">
+          <div>
+            <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 truncate">
+              {name}
+            </h3>
+            <p className="text-slate-500 dark:text-slate-400">{species}</p>
+          </div>
+          <button
+            className={`w-full mt-4 py-2 px-4 rounded-lg font-semibold text-white transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-opacity-50 ${
+              isFavorite
+                ? "bg-red-500 hover:bg-red-700 focus:ring-red-500"
+                : "bg-cyan-500 hover:bg-cyan-700 focus:ring-cyan-500"
+            }`}
+            onClick={() => onToggleFavorite(character)}
+          >
+            {isFavorite ? "Quitar de Favoritos" : "Añadir a Favoritos"}
+          </button>
+        </div>
+      </div>
+    );
+  }
 );
 
 CharacterCard.displayName = "CharacterCard";
 
 CharacterCard.propTypes = {
-    character: PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        name: PropTypes.string.isRequired,
-        image: PropTypes.string.isRequired,
-        status: PropTypes.string.isRequired,
-        species: PropTypes.string.isRequired,
-    }).isRequired,
-    favorites: PropTypes.arrayOf(PropTypes.object).isRequired,
-    onToggleFavorite: PropTypes.func.isRequired,
+  character: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
+    species: PropTypes.string.isRequired,
+  }).isRequired,
+  isFavorite: PropTypes.bool.isRequired,
+  onToggleFavorite: PropTypes.func.isRequired,
 };

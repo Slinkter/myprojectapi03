@@ -28,15 +28,17 @@ export const CharacterList = () => {
   } = useCharacters();
 
   return (
-    <div className="character-list">
+    <div className="space-y-12">
       {/*  */}
       <FavoritesList
         favorites={favorites}
         onRemoveFavorite={handleRemoveFavorite}
       />
       {/*  */}
-      <div className="character-list__header">
-        <h2 className="character-list__title"> Personajes</h2>
+      <div className="space-y-6">
+        <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-100">
+          Personajes
+        </h2>
         <SearchBar value={searchTerm} onChange={handleSearch} />
       </div>
 
@@ -47,21 +49,24 @@ export const CharacterList = () => {
       )}
 
       {status === "succeeded" && filteredCharacters.length === 0 && (
-        <p className="character-list__empty">
+        <p className="text-center text-slate-500 dark:text-slate-400 text-lg">
           No se encontraron personajes con ese nombre {searchTerm}
         </p>
       )}
 
       {status === "succeeded" && (
-        <div className="character-list__grid">
-          {filteredCharacters.map((character) => (
-            <CharacterCard
-              key={character.id}
-              character={character}
-              onToggleFavorite={handleToggleFavorite}
-              favorites={favorites}
-            />
-          ))}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {filteredCharacters.map((character) => {
+            const isFavorite = favorites.some((fav) => fav.id === character.id);
+            return (
+              <CharacterCard
+                key={character.id}
+                character={character}
+                isFavorite={isFavorite}
+                onToggleFavorite={handleToggleFavorite}
+              />
+            );
+          })}
         </div>
       )}
     </div>

@@ -6,6 +6,7 @@ import React from "react";
 import { CharacterListPage } from "@/pages/CharacterListPage";
 import { Header } from "@/components/Header";
 import { ThemeProvider } from "@/context/ThemeProvider";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 /**
  * Main application component.
@@ -17,14 +18,16 @@ import { ThemeProvider } from "@/context/ThemeProvider";
 function App() {
   return (
     <React.StrictMode>
-      <ThemeProvider>
-        <div className="app-layout">
-          <Header />
-          <main className="app-layout__main">
-            <CharacterListPage />
-          </main>
-        </div>
-      </ThemeProvider>
+      <ErrorBoundary>
+        <ThemeProvider>
+          <div className="min-h-screen bg-slate-100 dark:bg-slate-900 transition-all duration-700">
+            <Header />
+            <main className="container mx-auto px-4 py-8">
+              <CharacterListPage />
+            </main>
+          </div>
+        </ThemeProvider>
+      </ErrorBoundary>
     </React.StrictMode>
   );
 }

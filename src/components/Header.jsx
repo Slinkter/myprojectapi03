@@ -13,12 +13,12 @@ import { ThemeToggleButton } from "./ThemeToggleButton";
  */
 export const Header = () => {
   return (
-    <header className="header">
-      <div className="header__container">
-        <div className="header__logo">
+    <header className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg sticky top-0 z-10 shadow-lg">
+      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+        <div className="text-2xl font-bold text-cyan-500">
           <a href="/">API RICK & MORTIN </a>
         </div>
-        <nav className="header__nav">
+        <nav className="flex items-center gap-4">
           <ThemeToggleButton />
         </nav>
       </div>

@@ -21,9 +21,9 @@ import PropTypes from "prop-types";
  */
 export function SearchBar({ value = "", onChange }) {
   return (
-    <div className="search-bar">
+    <div className="mb-2">
       <input
-        className="search-bar__input"
+        className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring dark:bg-gray-800 dark:border-gray-700"
         type="search"
         value={value}
         onChange={(e) => onChange && onChange(e.target.value)}
