@@ -3,6 +3,8 @@
  * Abstrae toda la comunicación de red.
  */
 
+import { logger } from "@/services/logger";
+
 const API_BASE_URL = "https://rickandmortyapi.com/api";
 
 /**
@@ -24,7 +26,11 @@ export const fetchCharacters = async () => {
     const data = await response.json();
     return data.results;
   } catch (error) {
-    console.error("Failed to fetch characters:", error);
+    // Use centralized logger instead of console.error
+    logger.apiError("/character", error, {
+      baseUrl: API_BASE_URL,
+      timestamp: new Date().toISOString(),
+    });
     // Re-lanza el error para que la capa superior (el thunk) pueda manejarlo.
     throw error;
   }

@@ -22,13 +22,14 @@ import {
  * - `handleRetry` {function(): void}: Reintenta la carga de datos.
  */
 export const useCharacters = () => {
-  /* local state */
-  const [searchTerm, setSearchTerm] = useState("");
   /* redux state */
   const { entities, favorites, status, error } = useSelector(
     (state) => state.characters
   );
   const dispatch = useDispatch();
+
+  /* local state */
+  const [searchTerm, setSearchTerm] = useState("");
 
   /**
    * Efecto secundario que inicia la carga de personajes si el estado es 'idle'.

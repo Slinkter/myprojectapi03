@@ -1,8 +1,7 @@
 /**
  * @file Componente para mostrar un mensaje de error con opción de reintentar.
  */
-import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 /**
  * Muestra un mensaje de error y un botón para reintentar una acción.
@@ -17,10 +16,7 @@ export const ErrorMessage = ({ message, onRetry }) => {
     <div className="error-message">
       <h3 className="error-message__title">Oops! Algo salió mal.</h3>
       <p className="error-message__text">{message}</p>
-      <button
-        onClick={onRetry}
-        className="error-message__button"
-      >
+      <button onClick={onRetry} className="error-message__button">
         Reintentar
       </button>
     </div>
@@ -28,6 +24,6 @@ export const ErrorMessage = ({ message, onRetry }) => {
 };
 
 ErrorMessage.propTypes = {
-    message: PropTypes.string.isRequired,
-    onRetry: PropTypes.func.isRequired,
+  message: PropTypes.string.isRequired,
+  onRetry: PropTypes.func.isRequired,
 };
