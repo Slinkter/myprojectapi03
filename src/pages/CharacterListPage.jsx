@@ -2,15 +2,16 @@
  * @file Character list page component with lazy loading and error handling.
  * Implements code splitting for the CharacterList component to improve initial load performance.
  */
-import React, { Suspense } from "react";
-import { CharacterGridSkeleton } from "@/features/characters/components/CharacterGridSkeleton";
-import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 /**
  * Lazy-loaded CharacterList component.
  * Uses React.lazy for code splitting to reduce initial bundle size.
  * @type {React.LazyExoticComponent<React.ComponentType>}
  */
+import React, { Suspense } from "react";
+import { CharacterGridSkeleton } from "@/features/characters/components/CharacterGridSkeleton";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
+
 const CharacterList = React.lazy(() =>
   import("@/features/characters/components/CharacterList").then((module) => ({
     default: module.CharacterList,
@@ -29,10 +30,14 @@ const CharacterList = React.lazy(() =>
  *   <CharacterListPage />
  * </main>
  */
-export const CharacterListPage = () => (
-  <ErrorBoundary>
-    <Suspense fallback={<CharacterGridSkeleton />}>
-      <CharacterList />
-    </Suspense>
-  </ErrorBoundary>
+const CharacterListPage = () => (
+  <main className="container mx-auto px-4 py-8">
+    <ErrorBoundary>
+      <Suspense fallback={<CharacterGridSkeleton />}>
+        <CharacterList />
+      </Suspense>
+    </ErrorBoundary>
+  </main>
 );
+
+export { CharacterListPage };

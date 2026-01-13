@@ -19,7 +19,10 @@ const LogLevel = {
  * @returns {boolean} True if in development mode
  */
 const isDevelopment = () => {
-  return import.meta.env.MODE === "development";
+  return (
+    import.meta.env.VITE_ENABLE_LOGGER === "true" ||
+    import.meta.env.MODE === "development"
+  );
 };
 
 /**
@@ -98,6 +101,29 @@ class Logger {
 
     // In production, you might want to send this to your backend
     // or error monitoring service with structured data
+  }
+
+  /**
+   * Logs React component errors from Error Boundaries
+   * @param {Error} error - The error object
+   * @param {object} errorInfo - React error info with componentStack
+   */
+  reactError(error, errorInfo) {
+    const errorData = {
+      message: error.message,
+      stack: error.stack,
+      componentStack: errorInfo.componentStack,
+      timestamp: new Date().toISOString(),
+    };
+
+    this.error("React Component Error", errorData);
+
+    // In production: Send to Sentry
+    // if (window.Sentry) {
+    //   window.Sentry.captureException(error, {
+    //     contexts: { react: errorInfo }
+    //   });
+    // }
   }
 }
 

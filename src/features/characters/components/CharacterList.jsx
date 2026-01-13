@@ -7,6 +7,7 @@ import { SearchBar } from "@/components/SearchBar";
 import { FavoritesList } from "./FavoritesList";
 import { ErrorMessage } from "@/components/ErrorMessage";
 import { CharacterGridSkeleton } from "./CharacterGridSkeleton";
+import { ReduxStatus } from "@/features/characters/constants/status.constants";
 
 /**
  * Orquesta y renderiza la UI para la búsqueda, visualización y gestión de personajes.
@@ -42,21 +43,21 @@ export const CharacterList = () => {
         <SearchBar value={searchTerm} onChange={handleSearch} />
       </div>
 
-      {status === "loading" && <CharacterGridSkeleton />}
+      {status === ReduxStatus.LOADING && <CharacterGridSkeleton />}
 
-      {status === "failed" && (
+      {status === ReduxStatus.FAILED && (
         <ErrorMessage message={error} onRetry={handleRetry} />
       )}
 
-      {status === "succeeded" && filteredCharacters.length === 0 && (
+      {status === ReduxStatus.SUCCEEDED && filteredCharacters.length === 0 && (
         <p className="text-center text-slate-500 dark:text-slate-400 text-lg">
           No se encontraron personajes con ese nombre {searchTerm}
         </p>
       )}
 
-      {status === "succeeded" && (
+      {status === ReduxStatus.SUCCEEDED && (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {filteredCharacters.map((character) => {
+          {filteredCharacters.map((character, index) => {
             const isFavorite = favorites.some((fav) => fav.id === character.id);
             return (
               <CharacterCard
@@ -64,6 +65,7 @@ export const CharacterList = () => {
                 character={character}
                 isFavorite={isFavorite}
                 onToggleFavorite={handleToggleFavorite}
+                index={index}
               />
             );
           })}

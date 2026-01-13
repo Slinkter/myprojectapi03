@@ -4,6 +4,7 @@
  */
 import React from "react";
 import PropTypes from "prop-types";
+import { logger } from "@/services/logger";
 
 /**
  * Error Boundary component that catches JavaScript errors anywhere in the child component tree.
@@ -38,8 +39,7 @@ export class ErrorBoundary extends React.Component {
    * @param {object} errorInfo - Component stack trace
    */
   componentDidCatch(error, errorInfo) {
-    // Log to error monitoring service (e.g., Sentry)
-    console.error("ErrorBoundary caught:", error, errorInfo);
+    logger.reactError(error, errorInfo);
     this.setState({ errorInfo });
   }
 

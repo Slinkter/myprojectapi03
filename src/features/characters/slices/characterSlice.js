@@ -5,6 +5,8 @@
  */
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchCharacters as fetchCharactersAPI } from "@/features/characters/services/rickAndMortyAPI";
+import { loadFavoritesFromStorage } from "@/features/characters/utils/favoritesStorage";
+import { ReduxStatus } from "@/features/characters/constants/status.constants";
 
 /**
  * Thunk asíncrono para obtener los datos de los personajes desde la API.
@@ -34,8 +36,8 @@ export const fetchCharacters = createAsyncThunk(
  */
 const initialState = {
   entities: [], // Array para almacenar la lista de todos los personajes obtenidos.
-  favorites: [], // Array para almacenar los personajes marcados como favoritos.
-  status: "idle", // Estado actual de la solicitud de datos: 'idle' | 'loading' | 'succeeded' | 'failed'.
+  favorites: loadFavoritesFromStorage(), // Array para almacenar los personajes marcados como favoritos (persistido en localStorage).
+  status: ReduxStatus.IDLE, // Estado actual de la solicitud de datos: 'idle' | 'loading' | 'succeeded' | 'failed'.
   error: null, // Almacena cualquier mensaje de error si la solicitud falla.
 };
 
@@ -90,7 +92,7 @@ const characterSlice = createSlice({
        * Establece el estado a 'loading' y limpia cualquier error previo.
        */
       .addCase(fetchCharacters.pending, (state) => {
-        state.status = "loading";
+        state.status = ReduxStatus.LOADING;
         state.error = null;
       })
       /**
@@ -98,7 +100,7 @@ const characterSlice = createSlice({
        * Establece el estado a 'succeeded' y guarda los personajes obtenidos en `entities`.
        */
       .addCase(fetchCharacters.fulfilled, (state, action) => {
-        state.status = "succeeded";
+        state.status = ReduxStatus.SUCCEEDED;
         state.entities = action.payload;
       })
       /**
@@ -106,7 +108,7 @@ const characterSlice = createSlice({
        * Establece el estado a 'failed' y guarda el mensaje de error.
        */
       .addCase(fetchCharacters.rejected, (state, action) => {
-        state.status = "failed";
+        state.status = ReduxStatus.FAILED;
         state.error = action.payload; // El payload en este caso es el mensaje de error de rejectWithValue.
       });
   },

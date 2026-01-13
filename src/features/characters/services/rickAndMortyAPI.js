@@ -5,7 +5,8 @@
 
 import { logger } from "@/services/logger";
 
-const API_BASE_URL = "https://rickandmortyapi.com/api";
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "https://rickandmortyapi.com/api";
 
 /**
  * Obtiene la lista completa de personajes.
@@ -18,20 +19,16 @@ const API_BASE_URL = "https://rickandmortyapi.com/api";
 export const fetchCharacters = async () => {
   try {
     const response = await fetch(`${API_BASE_URL}/character`);
-
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-
     const data = await response.json();
     return data.results;
   } catch (error) {
-    // Use centralized logger instead of console.error
     logger.apiError("/character", error, {
       baseUrl: API_BASE_URL,
       timestamp: new Date().toISOString(),
     });
-    // Re-lanza el error para que la capa superior (el thunk) pueda manejarlo.
     throw error;
   }
 };

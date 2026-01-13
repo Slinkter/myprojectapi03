@@ -2,10 +2,10 @@
  * @file Root application component.
  * Orchestrates the main layout with theme support and routing.
  */
-import React from "react";
+
 import { CharacterListPage } from "@/pages/CharacterListPage";
 import { Header } from "@/components/Header";
-import { ThemeProvider } from "@/context/ThemeProvider";
+
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 /**
@@ -15,21 +15,15 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
  *
  * @returns {JSX.Element} The root application component
  */
-function App() {
+const App = () => {
   return (
-    <React.StrictMode>
-      <ErrorBoundary>
-        <ThemeProvider>
-          <div className="min-h-screen bg-slate-100 dark:bg-slate-900 transition-all duration-700">
-            <Header />
-            <main className="container mx-auto px-4 py-8">
-              <CharacterListPage />
-            </main>
-          </div>
-        </ThemeProvider>
-      </ErrorBoundary>
-    </React.StrictMode>
+    <ErrorBoundary>
+      <div className="min-h-screen bg-slate-100 dark:bg-slate-900 transition-all duration-700">
+        <Header />
+        <CharacterListPage />
+      </div>
+    </ErrorBoundary>
   );
-}
+};
 
 export default App;

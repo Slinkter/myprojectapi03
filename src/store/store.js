@@ -4,6 +4,7 @@
  */
 import { configureStore } from "@reduxjs/toolkit";
 import characterReducer from "@/features/characters/slices/characterSlice";
+import { favoritesMiddleware } from "@/features/characters/middleware/favoritesMiddleware";
 
 /**
  * Redux store configurado con Redux Toolkit.
@@ -15,11 +16,14 @@ import characterReducer from "@/features/characters/slices/characterSlice";
  * @property {object} reducer.characters - Reducer para el estado de personajes
  *
  * @example
- * // Usar en componentes con useSelector
+ *   Usar en componentes con useSelector
  * const characters = useSelector((state) => state.characters.entities);
  */
 export const store = configureStore({
   reducer: {
     characters: characterReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(favoritesMiddleware),
+  devTools: import.meta.env.VITE_ENABLE_REDUX_DEVTOOLS === "true",
 });

@@ -5,6 +5,7 @@ import {
   addFavorite,
   removeFavorite,
 } from "@/features/characters/slices/characterSlice";
+import { ReduxStatus } from "@/features/characters/constants/status.constants";
 
 /**
  * Hook personalizado para la gestión de la lógica de negocio de la vista de personajes.
@@ -36,7 +37,7 @@ export const useCharacters = () => {
    * Evita llamadas redundantes a la API si los datos ya se están cargando o existen.
    */
   useEffect(() => {
-    if (status === "idle") {
+    if (status === ReduxStatus.IDLE) {
       dispatch(fetchCharacters());
     }
   }, [status, dispatch]);
