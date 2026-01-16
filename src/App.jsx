@@ -5,7 +5,6 @@
 
 import { CharacterListPage } from "@/pages/CharacterListPage";
 import { Header } from "@/components/Header";
-
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 /**
