@@ -24,7 +24,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Run security audit
-        run: pnpm audit --audit-level critical || true
+        run: |
+          pnpm audit --audit-level critical || echo "Audit completed with warnings"
 
   # 2. Build
   build:
