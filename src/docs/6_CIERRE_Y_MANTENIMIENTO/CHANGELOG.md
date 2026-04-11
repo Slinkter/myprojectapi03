@@ -4,16 +4,11 @@ Este documento registra todos los cambios importantes realizados en el proyecto.
 
 ---
 
-## [1.0.0] - 2025-12-31
+## [1.1.0] - 2026-04-11
 
 ### Added
--   **¡Lanzamiento Inicial del Proyecto!**
--   Funcionalidad para mostrar y buscar personajes de la API de Rick and Morty.
--   Sistema de gestión de favoritos utilizando Redux Toolkit.
--   Soporte para tema Claro y Oscuro con persistencia en `localStorage`.
--   Arquitectura de frontend limpia basada en capas (Componentes, Hooks, Store, Servicios).
--   Sistema de estilos basado en Tailwind CSS.
--   Configuración de ESLint para asegurar la calidad del código.
--   Validación de `PropTypes` en todos los componentes relevantes.
--   Sistema completo de documentación profesional del proyecto en la carpeta `src/docs`.
--   Proceso de despliegue automatizado a GitHub Pages.
+- Implementado ciclo de vida de desarrollo blindado (CI/CD).
+- Configuración de Git Hooks (Husky) para pre-commit (lint-staged) y pre-push (test unitarios).
+- Pipeline remoto de GitHub Actions para auditoría de seguridad, build, pruebas unitarias y despliegue automático.
+- Suite de pruebas unitarias con Vitest.
+

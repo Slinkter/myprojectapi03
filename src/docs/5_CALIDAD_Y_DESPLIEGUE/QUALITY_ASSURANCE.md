@@ -42,13 +42,12 @@ MyComponent.propTypes = {
 
 ## 3. Pruebas (Testing)
 
-Actualmente, el proyecto no cuenta con un arnés de pruebas automatizadas (unitarias, de integración o E2E).
+El proyecto utiliza **Vitest** como framework de pruebas, aprovechando su integración nativa con Vite.
 
-### Propuesta a Futuro:
-Para incrementar la robustez del proyecto, se recomienda implementar una estrategia de testing con las siguientes herramientas:
+- **Configuración:** Definida en `vite.config.js` y scripts de `package.json`.
+- **Ejecución:**
+    - Manual: `pnpm run test`
+    - Automática: Se ejecuta en cada `git push` (hook pre-push) y en el pipeline de CI (GitHub Actions).
+- **Cobertura:** Enfocada en hooks y funciones de utilidad, con planes para expandir a pruebas de componentes utilizando **React Testing Library**.
+- **Beneficios:** Garantiza la integridad lógica antes de cualquier despliegue.
 
--   **Librería de Pruebas:** **Vitest**, por su excelente integración con Vite.
--   **Pruebas de Componentes:** **React Testing Library**, para realizar pruebas que simulen la interacción del usuario con la UI.
--   **Pruebas Unitarias:** Para los hooks y funciones de utilidad puras.
-
-La prioridad sería añadir pruebas de integración para los flujos de usuario más críticos, como la búsqueda y la gestión de favoritos.
