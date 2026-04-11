@@ -1,33 +1,54 @@
 # 5.2. Despliegue
 
-**Fecha:** 31/12/2025
-**Versión:** 1.0
+**Fecha:** 11/04/2026
+**Versión:** 1.1
 
 Este documento explica el proceso para desplegar la aplicación a producción utilizando GitHub Pages.
 
-## 1. Herramientas y Configuración
+## 1. Despliegue Automático (CI/CD)
 
--   **Hosting:** [GitHub Pages](https://pages.github.com/)
--   **Herramienta de Despliegue:** [gh-pages](https://www.npmjs.com/package/gh-pages), un paquete que simplifica la publicación de archivos en una rama `gh-pages`.
+El proyecto utiliza GitHub Actions para despliegues automáticos a cada push en `main`.
 
-La configuración necesaria se encuentra en `package.json`:
--   **`homepage`:** (Añadir si es necesario) Para que la aplicación funcione en una subruta (ej. `https://<usuario>.github.io/<repositorio>/`), se debe añadir la URL pública en `package.json`:
-    ```json
-    "homepage": "https://<usuario>.github.io/<repositorio>/"
-    ```
--   **Scripts de `package.json`:**
-    ```json
-    "scripts": {
-      "predeploy": "npm run build",
-      "deploy": "gh-pages -d dist"
-    }
-    ```
-    -   `deploy`: Este es el comando principal. Invoca a `gh-pages` para que tome el contenido del directorio `dist` (la build de producción) y lo suba a la rama `gh-pages` del repositorio.
-    -   `predeploy`: Este script se ejecuta automáticamente **antes** de `deploy`. Su función es asegurar que se genere una nueva build de producción (`npm run build`) justo antes de desplegar.
+**URL del sitio:** https://slinkter.github.io/myprojectapi03/
 
-## 2. Proceso de Despliegue (Paso a Paso)
+### Pipeline CI/CD
 
-Para realizar un despliegue, simplemente ejecuta el siguiente comando desde la raíz del proyecto:
+```yaml
+# .github/workflows/deploy.yml
+Jobs:
+1. security-audit  - Auditoría de seguridad (pnpm audit)
+2. build           - Build de producción (Vite)
+3. test            - Pruebas unitarias (Vitest)
+4. deploy          - Despliegue a GitHub Pages (peaceiris/actions-gh-pages)
+```
+
+### Configuración
+
+- **Action:** peaceiris/actions-gh-pages@v3
+- **Rama destino:** gh-pages
+- **Directorio:** ./dist
+- **Node.js:** 24
+
+## 2. Despliegue Manual (Local)
+
+También puedes desplegar manualmente desde tu máquina:
+
+```bash
+pnpm run deploy
+```
+
+### Requisitos previos
+
+1. Asegúrate de tener habilitada la rama `gh-pages` en Settings → Pages → Source: "Deploy from a branch" → Branch: gh-pages /root
+
+2. Configura el `homepage` en package.json:
+```json
+"homepage": "https://slinkter.github.io/myprojectapi03/"
+```
+
+## 3. Proceso de Despliegue (Paso a Paso)
+
+Para realizar un despliegue manual:
 
 ```bash
 pnpm run deploy
@@ -43,10 +64,10 @@ pnpm run deploy
 
 Tras unos minutos, la nueva versión de la aplicación estará disponible online.
 
-## 3. Configuración en GitHub
+## 4. Configuración en GitHub
 
 Para que el despliegue funcione, la configuración del repositorio en GitHub debe estar ajustada para servir desde la rama `gh-pages`.
 
-1.  Ve a `Settings` > `Pages` en tu repositorio.
-2.  En `Build and deployment`, selecciona la fuente (`Source`) como `Deploy from a branch`.
-3.  Asegúrate de que la rama seleccionada (`Branch`) sea `gh-pages` con la carpeta `/(root)`.
+1. Ve a `Settings` > `Pages` en tu repositorio.
+2. En `Build and deployment`, selecciona la fuente (`Source`) como `Deploy from a branch`.
+3. Asegúrate de que la rama seleccionada (`Branch`) sea `gh-pages` con la carpeta `/(root)`.

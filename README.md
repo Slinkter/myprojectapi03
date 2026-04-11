@@ -33,6 +33,18 @@ pnpm install
 pnpm dev 
 ```
 
+## 🌐 Despliegue
+
+El proyecto se despliega automáticamente a GitHub Pages mediante GitHub Actions.
+
+**URL:** https://slinkter.github.io/myprojectapi03/
+
+**Pipeline:** CI/CD Pipeline en GitHub Actions
+- Security Audit
+- Build
+- Test (Vitest)
+- Deploy to GitHub Pages
+
 ## 🏗️ Flujo de Arquitectura (FSD)
 ```text
 [UI Components]
