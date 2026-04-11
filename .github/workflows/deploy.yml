@@ -21,6 +21,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
+      - name: Install dependencies
+        run: pnpm install
       - name: Run security audit
         run: pnpm audit --audit-level critical
 
