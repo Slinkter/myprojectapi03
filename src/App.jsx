@@ -6,6 +6,7 @@
 import { CharacterListPage } from "@/pages/CharacterListPage";
 import { Header } from "@/components/Header";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { Toaster } from "react-hot-toast";
 
 /**
  * Main application component.
@@ -17,6 +18,15 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 const App = () => {
   return (
     <ErrorBoundary>
+      <Toaster 
+        position="bottom-right" 
+        toastOptions={{
+          className: 'dark:bg-slate-800 dark:text-slate-100',
+          style: {
+            borderRadius: '16px',
+          },
+        }}
+      />
       <div className="min-h-screen bg-slate-100 dark:bg-slate-900 transition-all duration-700">
         <Header />
         <CharacterListPage />

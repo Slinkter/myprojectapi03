@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import toast from "react-hot-toast";
 import {
   fetchCharacters,
   addFavorite,
@@ -67,8 +68,10 @@ export const useCharacters = () => {
       const isFavorite = favorites.some((fav) => fav.id === character.id);
       if (isFavorite) {
         dispatch(removeFavorite(character));
+        toast.error(`${character.name} removed from favorites`);
       } else {
         dispatch(addFavorite(character));
+        toast.success(`${character.name} added to favorites!`);
       }
     },
     [favorites, dispatch]
@@ -81,6 +84,7 @@ export const useCharacters = () => {
   const handleRemoveFavorite = useCallback(
     (character) => {
       dispatch(removeFavorite(character));
+      toast.error(`${character.name} removed from favorites`);
     },
     [dispatch]
   );
@@ -99,6 +103,7 @@ export const useCharacters = () => {
    */
   const handleRetry = useCallback(() => {
     dispatch(fetchCharacters());
+    toast.loading("Retrying connection...");
   }, [dispatch]);
 
   // Retorna el estado y las funciones que se consumirán en el componente de la UI.
