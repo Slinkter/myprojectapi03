@@ -8,6 +8,8 @@ import { FavoritesList } from "./FavoritesList";
 import { ErrorMessage } from "@/components/ErrorMessage";
 import { CharacterGridSkeleton } from "./CharacterGridSkeleton";
 import { ReduxStatus } from "@/features/characters/constants/status.constants";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { useMemo } from "react";
 
 /**
  * Orquesta y renderiza la UI para la búsqueda, visualización y gestión de personajes.
@@ -28,49 +30,99 @@ export const CharacterList = () => {
     handleRetry,
   } = useCharacters();
 
+  const shouldReduceMotion = useReducedMotion();
+
+  /**
+   * Optimización Algorítmica (O(n)):
+   * Creamos un Set de IDs de favoritos para que la búsqueda dentro del loop sea O(1).
+   * Esto evita una complejidad O(n*m) al renderizar la lista.
+   */
+  const favoriteIds = useMemo(
+    () => new Set(favorites.map((fav) => fav.id)),
+    [favorites]
+  );
+
   return (
-    <div className="space-y-12">
+    <div className="max-w-screen-xl mx-auto px-6 py-12 space-y-16">
       {/*  */}
       <FavoritesList
         favorites={favorites}
         onRemoveFavorite={handleRemoveFavorite}
       />
       {/*  */}
-      <div className="space-y-6">
-        <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-100">
-          Personajes
-        </h2>
+      <div className="space-y-10">
+        <div className="text-center space-y-2">
+          <h2 className="text-4xl font-black text-slate-900 dark:text-white tracking-tight">
+            Discover <span className="text-cyan-500">Characters</span>
+          </h2>
+          <p className="text-slate-500 dark:text-slate-400 text-lg">
+            Explore the multiverse and save your favorites.
+          </p>
+        </div>
         <SearchBar value={searchTerm} onChange={handleSearch} />
       </div>
 
-      {status === ReduxStatus.LOADING && <CharacterGridSkeleton />}
+      <AnimatePresence mode="wait">
+        {status === ReduxStatus.LOADING && (
+          <motion.div
+            key="loading"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <CharacterGridSkeleton />
+          </motion.div>
+        )}
 
-      {status === ReduxStatus.FAILED && (
-        <ErrorMessage message={error} onRetry={handleRetry} />
-      )}
+        {status === ReduxStatus.FAILED && (
+          <motion.div
+            key="error"
+            initial={{ opacity: 0, scale: shouldReduceMotion ? 1 : 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: shouldReduceMotion ? 1 : 0.9 }}
+          >
+            <ErrorMessage message={error} onRetry={handleRetry} />
+          </motion.div>
+        )}
 
-      {status === ReduxStatus.SUCCEEDED && filteredCharacters.length === 0 && (
-        <p className="text-center text-slate-500 dark:text-slate-400 text-lg">
-          No se encontraron personajes con ese nombre {searchTerm}
-        </p>
-      )}
+        {status === ReduxStatus.SUCCEEDED && filteredCharacters.length === 0 && (
+          <motion.p
+            key="empty"
+            initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center text-slate-500 dark:text-slate-400 text-xl font-medium"
+          >
+            No results found for &quot;{searchTerm}&quot;
+          </motion.p>
+        )}
 
-      {status === ReduxStatus.SUCCEEDED && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {filteredCharacters.map((character, index) => {
-            const isFavorite = favorites.some((fav) => fav.id === character.id);
-            return (
+        {status === ReduxStatus.SUCCEEDED && (
+          <motion.div
+            key="grid"
+            initial="hidden"
+            animate="show"
+            variants={{
+              hidden: { opacity: 0 },
+              show: {
+                opacity: 1,
+                transition: {
+                  staggerChildren: shouldReduceMotion ? 0 : 0.08,
+                },
+              },
+            }}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+          >
+            {filteredCharacters.map((character) => (
               <CharacterCard
                 key={character.id}
                 character={character}
-                isFavorite={isFavorite}
+                isFavorite={favoriteIds.has(character.id)}
                 onToggleFavorite={handleToggleFavorite}
-                index={index}
               />
-            );
-          })}
-        </div>
-      )}
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

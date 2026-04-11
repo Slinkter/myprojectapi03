@@ -5,7 +5,7 @@
 @layer base {
   /* Global base styles - minimal, only if needed */
   body {
-    @apply antialiased;
+    @apply antialiased bg-slate-100 text-slate-900 dark:bg-slate-900 dark:text-slate-100 transition-colors duration-700;
   }
 }
 

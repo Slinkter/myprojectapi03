@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   fetchCharacters,
@@ -59,39 +59,47 @@ export const useCharacters = () => {
   /**
    * Alterna la presencia de un personaje en la lista de favoritos.
    * Si ya existe lo elimina, de lo contrario lo añade.
+   * Utilizamos useCallback para no romper React.memo en CharacterCard.
    * @param {object} character - El objeto del personaje a procesar.
    */
-  const handleToggleFavorite = (character) => {
-    const isFavorite = favorites.some((fav) => fav.id === character.id);
-    if (isFavorite) {
-      dispatch(removeFavorite(character));
-    } else {
-      dispatch(addFavorite(character));
-    }
-  };
+  const handleToggleFavorite = useCallback(
+    (character) => {
+      const isFavorite = favorites.some((fav) => fav.id === character.id);
+      if (isFavorite) {
+        dispatch(removeFavorite(character));
+      } else {
+        dispatch(addFavorite(character));
+      }
+    },
+    [favorites, dispatch]
+  );
 
   /**
    * Elimina un personaje de la lista de favoritos.
    * @param {object} character - El objeto del personaje a eliminar.
    */
-  const handleRemoveFavorite = (character) => {
-    dispatch(removeFavorite(character));
-  };
+  const handleRemoveFavorite = useCallback(
+    (character) => {
+      dispatch(removeFavorite(character));
+    },
+    [dispatch]
+  );
+
   /**
    * Actualiza el estado del término de búsqueda.
    * @param {string} value - Nuevo texto de búsqueda.
    */
-  const handleSearch = (value) => {
+  const handleSearch = useCallback((value) => {
     setSearchTerm(value);
-  };
+  }, []);
 
   /**
    * Reintenta la carga de personajes despachando la acción correspondiente.
    * Útil en caso de error en la petición inicial.
    */
-  const handleRetry = () => {
+  const handleRetry = useCallback(() => {
     dispatch(fetchCharacters());
-  };
+  }, [dispatch]);
 
   // Retorna el estado y las funciones que se consumirán en el componente de la UI.
   return {

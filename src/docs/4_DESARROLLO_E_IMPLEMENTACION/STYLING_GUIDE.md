@@ -74,3 +74,86 @@ Para evitar la repetición de largas cadenas de clases en componentes reutilizab
 }
 ```
 Sin embargo, la preferencia es siempre componer componentes en React y pasar `props` para variantes, en lugar de crear muchas clases CSS.
+# Informe de Auditoría UX/UI - Rick and Morty Explorer
+
+**Perfil:** Senior UX/UI Designer & Frontend Optimizer
+**Filosofía:** Aura (Minimalismo, Profundidad y Fluidez)
+
+---
+
+## 1. Análisis de Errores UX Detectados
+
+| Componente | Error Detectado | Impacto |
+|------------|-----------------|---------|
+| **Header** | Logo con "API RICK & MORTIN" (Typo detectado). Padding fijo en móvil. | Identidad & Consistencia |
+| **FavoritesList** | Spacing base 3 (`space-y-3`) no alineado a la escala base 4. Falta de espacio negativo. | Ritmo Visual |
+| **SearchBar** | Ring de enfoque estándar (azul default). Sin micro-interacción al enfocar. | Feedback Visual |
+| **CharacterCard** | Altura fija en contenido (`h-40`). Riesgo de corte en textos largos o traducciones. | Adaptabilidad |
+| **CharacterList** | Grid de 1 columna en móvil (`grid-cols-1`). Demasiado scroll vertical. | Densidad de Info |
+
+---
+
+## 2. Refactorización CSS/Tailwind (Aura Optimization)
+
+### 🧩 Header.jsx
+```jsx
+// Optimización: Responsive padding y escala áurea en logo
+<header className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl sticky top-0 z-50 border-b border-slate-200/50 dark:border-slate-800/50 transition-colors duration-500">
+  <div className="max-w-screen-xl mx-auto px-6 py-5 flex justify-between items-center">
+    <div className="text-2xl font-black tracking-tight text-cyan-500 hover:scale-105 transition-transform duration-300">
+      <a href="/">RICK & MORTY <span className="text-slate-400 font-light">EXPLORER</span></a>
+    </div>
+    {/* ... */}
+  </div>
+</header>
+```
+
+### 🧩 CharacterCard.jsx
+```jsx
+// Optimización: Aspect-ratio y min-h en lugar de h-fijo
+<div className="p-6 flex flex-col min-h-[160px] justify-between gap-4">
+  <div className="space-y-2">
+    <h3 className="text-xl font-bold text-slate-900 dark:text-white leading-tight">
+      {name}
+    </h3>
+    <p className="text-sm font-medium uppercase tracking-wider text-slate-400">
+      {species}
+    </p>
+  </div>
+  {/* Button logic... */}
+</div>
+```
+
+---
+
+## 3. Diagrama de Rejilla ASCII (Responsive Flow)
+
+### Mobile (360px - 480px)
+```text
++-----------------------+
+|        Header         |
++-----------------------+
+|  [ SearchBar (p-6) ]  |
++-----------------------+
+|      +---------+      |
+|      | Card 1  |      |
+|      +---------+      |
+|      | Card 2  |      |
+|      +---------+      |
++-----------------------+
+| (Single Column Flow)  |
+```
+
+### Desktop (1280px+)
+```text
++-------------------------------------------------------+
+|                        Header                         |
++-------------------------------------------------------+
+|                [ SearchBar (max-w-2xl) ]              |
++-------------------------------------------------------+
+|  +-------+  +-------+  +-------+  +-------+  +-------+|
+|  |Card 1 |  |Card 2 |  |Card 3 |  |Card 4 |  |Card 5 ||
+|  +-------+  +-------+  +-------+  +-------+  +-------+|
++-------------------------------------------------------+
+| (Staggered 4-5 Column Grid / max-w-screen-xl)         |
+```

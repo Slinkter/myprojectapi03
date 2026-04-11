@@ -7,26 +7,28 @@ import PropTypes from "prop-types";
 
 export const FavoritesList = ({ favorites, onRemoveFavorite }) => {
   if (favorites.length === 0) {
-    return null; // No mostrar nada si no hay favoritos
+    return null;
   }
 
   return (
-    <div className="container mx-auto px-4 py-6">
-      <div className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold mb-4 text-cyan-500">Mis Favoritos</h2>
-        <ul className="space-y-3">
+    <div className="w-full">
+      <div className="bg-white dark:bg-slate-800/50 p-8 rounded-3xl border border-slate-200/50 dark:border-slate-700/50 shadow-xl backdrop-blur-sm">
+        <h2 className="text-2xl font-black mb-6 text-cyan-500 tracking-tight">
+          YOUR <span className="text-slate-400">COLLECTION</span>
+        </h2>
+        <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {favorites.map((fav) => (
             <li
               key={fav.id}
-              className="flex justify-between items-center bg-slate-100 dark:bg-slate-900 p-3 rounded-md animate-fade-in"
+              className="flex justify-between items-center bg-slate-50 dark:bg-slate-900 p-4 rounded-2xl border border-slate-100 dark:border-slate-800 hover:border-cyan-500/30 transition-all duration-300"
             >
-              <span className="font-semibold text-lg">{fav.name}</span>
+              <span className="font-bold text-slate-700 dark:text-slate-200">{fav.name}</span>
               <button
-                className="p-2 text-red-500 hover:bg-red-500/10 rounded-full transition-colors"
-                aria-label={`Eliminar a ${fav.name} de favoritos`}
+                className="p-3 text-rose-500 hover:bg-rose-500/10 rounded-xl transition-all duration-300"
+                aria-label={`Remove ${fav.name} from favorites`}
                 onClick={() => onRemoveFavorite(fav)}
               >
-                <TrashIcon className="h-6 w-6" />
+                <TrashIcon className="h-5 w-5" />
               </button>
             </li>
           ))}

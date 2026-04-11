@@ -21,14 +21,14 @@ import PropTypes from "prop-types";
  */
 export function SearchBar({ value = "", onChange }) {
   return (
-    <div className="mb-2">
+    <div className="relative group max-w-2xl mx-auto w-full">
       <input
-        className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring dark:bg-gray-800 dark:border-gray-700"
+        className="w-full px-6 py-4 text-lg border-2 border-slate-200 dark:border-slate-700 rounded-2xl focus:outline-none focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/20 dark:bg-slate-800 transition-all duration-300 placeholder:text-slate-400 dark:placeholder:text-slate-500 shadow-sm"
         type="search"
         value={value}
         onChange={(e) => onChange && onChange(e.target.value)}
-        placeholder="Buscar personajes..."
-        aria-label="Buscar personajes"
+        placeholder="Search for your favorite characters..."
+        aria-label="Search for characters"
       />
     </div>
   );
