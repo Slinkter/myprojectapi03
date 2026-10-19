@@ -1,57 +1,69 @@
-# 🚀 Rick and Morty Explorer
+# 🛸 Rick and Morty Explorer — Multiverse Character Directory
 
-![React](https://img.shields.io/badge/React-18.3-61DAFB?logo=react)
-![Redux](https://img.shields.io/badge/Redux-Toolkit-764ABC?logo=redux)
-![Tailwind](https://img.shields.io/badge/Tailwind-CSS-38B2AC?logo=tailwindcss)
-![Vite](https://img.shields.io/badge/Vite-5.4-646CFF?logo=vite)
-![Framer Motion](https://img.shields.io/badge/Framer_Motion-12.38-0055FF?logo=framer)
+[![React](https://img.shields.io/badge/React-18.3-61DAFB?style=flat&logo=react)](https://react.dev)
+[![Vite](https://img.shields.io/badge/Vite-5.4-646CFF?style=flat&logo=vite)](https://vitejs.dev)
+[![Redux Toolkit](https://img.shields.io/badge/Redux_Toolkit-2.2-764ABC?style=flat&logo=redux)](https://redux-toolkit.js.org)
+[![Framer Motion](https://img.shields.io/badge/Framer_Motion-12.3-0055FF?style=flat&logo=framer)](https://www.framer.com/motion)
+[![Material Tailwind](https://img.shields.io/badge/Material_Tailwind-2.1-38B2AC?style=flat&logo=tailwindcss)](https://material-tailwind.com)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-> **"Aura Experience"**: UI Minimalista, Fluida y Optimizada para dispositivos Low-End.
-
----
-
-## 🧭 Índice de Ingeniería
-
-| # | Sección | Descripción |
-|---|---|---|
-| **I** | [Visión](#i-prefacio) | Project Overview & Alcance |
-| **II** | [Specs](#ii-especificaciones) | Requisitos y User Stories |
-| **III** | [Arquitectura](#iii-ingeniería) | FSD, Diagramas y Flujo |
-| **IV** | [Dev](#iv-manual) | Guías, Styling y Performance |
-| **V** | [Calidad](#v-gestión) | QA & Deployment |
-| **VI** | [IA](#vi-tooling) | Prompts de Orquestación |
-| **VII** | [Apéndices](#vii-apéndices) | Changelog y Glosario |
+Explorador del multiverso de Rick and Morty diseñado con una experiencia de usuario fluida ("Aura Experience"), animaciones de alto rendimiento y consumo eficiente de la API REST oficial de Rick and Morty.
 
 ---
 
-## ⚡ Quick Start
-```bash
-# Instalar dependencias
-pnpm install
+## 🎯 Características Principales
 
-# Iniciar servidor de desarrollo optimizado
-pnpm dev 
-```
+- **Catálogo Completo de Personajes**: Paginación fluida con navegación por cientos de habitantes de las distintas dimensiones.
+- **Filtros por Estado y Especie**: Filtrado instantáneo por estado vital (Alive, Dead, Unknown) y especie (Human, Alien, etc.).
+- **Detalle Dimensional y Episodios**: Ficha técnica detallada con origen, última ubicación conocida y episodios en los que aparece.
+- **Animaciones Cinemáticas**: Transiciones suaves impulsadas por Framer Motion optimizadas para dispositivos de gama baja.
+- **Arquitectura Limpia**: Separación modular entre capas de presentación, estado de Redux Toolkit y servicios de datos.
 
-## 🌐 Despliegue
+---
 
-El proyecto se despliega automáticamente a GitHub Pages mediante GitHub Actions.
+## 🛠️ Stack Tecnológico
 
-**URL:** https://slinkter.github.io/myprojectapi03/
+| Herramienta | Rol en el Proyecto |
+| :--- | :--- |
+| **React 18.3** | Componentes funcionales y renderizado declarativo |
+| **Vite 5.4** | Empaquetador veloz y servidor HMR |
+| **Redux Toolkit** | Almacenamiento centralizado y slices asíncronos |
+| **Framer Motion** | Animaciones de entrada, salida y microinteracciones |
+| **Material Tailwind** | Componentes UI accesibles y estilos utility-first |
+| **React Hot Toast** | Notificaciones accesibles y no bloqueantes |
 
-**Pipeline:** CI/CD Pipeline en GitHub Actions
-- Security Audit
-- Build
-- Test (Vitest)
-- Deploy to GitHub Pages
+---
 
-## 🏗️ Flujo de Arquitectura (FSD)
-```text
-[UI Components]
-       |
-[Features Layer] -> [Custom Hooks] -> [Redux Slice]
-       |                  |                |
-[Shared Services] <-------+----------------+
-```
+## 🚀 Inicio Rápido
 
-*Para profundizar, navega por la carpeta `/src/docs`.*
+### Requisitos Previos
+- **Node.js**: v18.0 o superior
+- **pnpm**: v9.0 o superior
+
+### Instalación y Ejecución
+
+1. **Instalar dependencias:**
+   ```bash
+   pnpm install
+   ```
+
+2. **Configurar entorno:**
+   ```bash
+   cp .env.example .env
+   ```
+
+3. **Iniciar servidor local:**
+   ```bash
+   pnpm run dev
+   ```
+
+4. **Compilar para producción:**
+   ```bash
+   pnpm run build
+   ```
+
+---
+
+## 📄 Licencia
+
+Este proyecto está bajo la Licencia **MIT**. Consulta el archivo `LICENSE` para más información.
